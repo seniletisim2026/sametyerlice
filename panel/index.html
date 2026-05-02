@@ -237,6 +237,7 @@ textarea{min-height:95px;resize:vertical}
   color:var(--soft);
 }
 
+/* MODAL DÜZELTİLDİ */
 .modal{
   position:fixed;
   inset:0;
@@ -245,26 +246,34 @@ textarea{min-height:95px;resize:vertical}
   display:none;
   align-items:center;
   justify-content:center;
-  padding:18px;
+  padding:32px 18px;
   z-index:9999;
+  overflow-y:auto;
 }
 .modal.active{display:flex}
 .modal-box{
   width:100%;
   max-width:760px;
-  max-height:92vh;
-  overflow:auto;
+  max-height:calc(100vh - 64px);
+  overflow-y:auto;
   border-radius:30px;
   padding:24px;
+}
+.modal-box::-webkit-scrollbar{width:6px}
+.modal-box::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.25);
+  border-radius:999px;
 }
 .modal-top{
   display:flex;
   justify-content:space-between;
+  align-items:flex-start;
   gap:12px;
-  margin-bottom:14px;
+  margin-bottom:18px;
 }
 .close{
   width:42px;height:42px;
+  min-width:42px;
   border-radius:15px;
   background:var(--red);
   color:white;
@@ -286,7 +295,7 @@ textarea{min-height:95px;resize:vertical}
 .full{grid-column:1/-1}
 .preview{
   width:100%;
-  height:210px;
+  height:190px;
   border-radius:20px;
   background:rgba(255,255,255,.08);
   margin-top:10px;
@@ -302,7 +311,7 @@ textarea{min-height:95px;resize:vertical}
   object-fit:cover;
 }
 .save{
-  margin-top:14px;
+  margin-top:16px;
 }
 footer{
   padding:28px 16px 40px;
@@ -340,12 +349,8 @@ footer b{color:var(--turq)}
     border-radius:18px;
     text-align:center;
   }
-  .stat b{
-    font-size:20px;
-  }
-  .stat span{
-    font-size:11px;
-  }
+  .stat b{font-size:20px}
+  .stat span{font-size:11px}
 
   .phone-card{
     grid-template-columns:105px 1fr 34px;
@@ -359,7 +364,6 @@ footer b{color:var(--turq)}
   }
   .phone-info h2{
     font-size:17px;
-    padding-right:0;
   }
   .tags{
     gap:5px;
@@ -381,12 +385,8 @@ footer b{color:var(--turq)}
     padding:8px;
     border-radius:13px;
   }
-  .price-box span{
-    font-size:10px;
-  }
-  .price-box b{
-    font-size:14px;
-  }
+  .price-box span{font-size:10px}
+  .price-box b{font-size:14px}
   .menu-dot{
     width:34px;
     height:34px;
@@ -399,15 +399,22 @@ footer b{color:var(--turq)}
   }
 
   .modal{
-    padding:10px;
+    align-items:center;
+    padding:22px 12px;
   }
   .modal-box{
-    max-height:92vh;
+    max-height:calc(100vh - 44px);
     border-radius:24px;
     padding:18px;
   }
+  .modal-top{
+    margin-bottom:14px;
+  }
   .modal-top h1{
     font-size:23px;
+  }
+  .modal-top p{
+    font-size:13px;
   }
   .form-grid{
     grid-template-columns:1fr 1fr;
@@ -418,8 +425,15 @@ footer b{color:var(--turq)}
     border-radius:13px;
     font-size:13px;
   }
+  textarea{
+    min-height:80px;
+  }
   .preview{
-    height:170px;
+    height:145px;
+  }
+  .save{
+    margin-top:12px;
+    padding:13px;
   }
 }
 
@@ -461,6 +475,20 @@ footer b{color:var(--turq)}
     grid-template-columns:1fr;
   }
 
+  .modal{
+    padding:20px 10px;
+  }
+
+  .modal-box{
+    max-height:calc(100vh - 40px);
+    padding:16px;
+    border-radius:22px;
+  }
+
+  .preview{
+    height:130px;
+  }
+
   footer{
     font-size:13px;
     padding-bottom:28px;
@@ -473,8 +501,8 @@ footer b{color:var(--turq)}
 
 <div class="login" id="loginScreen">
   <div class="login-box">
-    <h1>Panel</h1>
-    <p>Şen İletişim Yönetim Girişi</p>
+    <h1>Giriş</h1>
+    <p>Şen İletişim Yönetim Paneli</p>
     <input type="password" id="loginPassword" placeholder="Şifre">
     <button class="main-btn" style="margin-top:14px" onclick="login()">Giriş Yap</button>
     <span class="error" id="loginError"></span>
@@ -484,7 +512,7 @@ footer b{color:var(--turq)}
 <div class="panel" id="panelScreen">
 
   <div class="welcome">
-    <h1>Hoşgeldin <span>Samet Y.</span></h1>
+    <h1>Hoşgeldiniz <span>Samet Y.</span></h1>
     <p>Telefon yönetim paneli</p>
   </div>
 
