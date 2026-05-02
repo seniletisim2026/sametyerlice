@@ -1,1 +1,231 @@
-gfcjf
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Şen İletişim Panel</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#021423;color:white;min-height:100vh}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.box,.card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:24px}
+.box{width:100%;max-width:380px;text-align:center}
+h1,h2{color:#06BFBF;margin-bottom:10px}
+p{color:#cde8f2;margin-bottom:15px}
+input,textarea{width:100%;padding:14px;margin-bottom:12px;border:none;border-radius:14px;font-size:15px}
+button{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#06BFBF,#048ABF);color:#021423;font-weight:900;cursor:pointer}
+.error{color:#D92525;font-weight:900;margin-top:10px;display:block}
+.panel{display:none;max-width:1200px;margin:auto;padding:18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.logout{max-width:130px;background:#D92525;color:white}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.product{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:16px}
+.product img{width:100%;height:170px;object-fit:cover;border-radius:16px;margin-bottom:12px;background:white}
+.product h3{margin-bottom:6px}
+.product p{font-size:14px;color:#cde8f2;margin-bottom:8px}
+.price{color:#D2D904;font-size:20px;font-weight:900}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.delete{background:#D92525;color:white}
+.edit{background:white;color:#023059}
+.empty{text-align:center;padding:30px;border:1px dashed rgba(255,255,255,.2);border-radius:20px;color:#cde8f2}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.products{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.products{grid-template-columns:1fr}.top{flex-direction:column;align-items:flex-start}.logout{max-width:100%}}
+</style>
+</head>
+
+<body>
+
+<div class="login" id="loginScreen">
+  <div class="box">
+    <h1>Şen İletişim Panel</h1>
+    <p>Bu alan sadece Samet Yerlice içindir.</p>
+    <input type="password" id="loginPassword" placeholder="Panel şifresi">
+    <button onclick="login()">Panele Gir</button>
+    <span class="error" id="loginError"></span>
+  </div>
+</div>
+
+<div class="panel" id="panelScreen">
+  <div class="top">
+    <div>
+      <h1>Şen İletişim Yönetim Paneli</h1>
+      <p>Telefon cihazlarını ekle, düzenle ve tüm cihazlarda görüntüle.</p>
+    </div>
+    <button class="logout" onclick="logout()">Çıkış</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Cihaz Ekle</h2>
+
+      <input type="hidden" id="editId">
+      <input id="brand" placeholder="Marka / Model">
+      <input id="storage" placeholder="Hafıza / RAM örn: 128 GB">
+      <input id="condition" placeholder="Durum örn: Sıfır / 2. El">
+      <input id="price" placeholder="Fiyat örn: 12.500 TL">
+      <input id="image" placeholder="Görsel linki">
+      <textarea id="note" rows="4" placeholder="Not / açıklama"></textarea>
+
+      <button onclick="saveDevice()">Kaydet</button>
+    </div>
+
+    <div class="card">
+      <h2>Telefon Cihaz Listesi</h2>
+      <div class="products" id="products"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { 
+  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, orderBy, query 
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyATTPWhbZcRh9rK72U8x-5KwIz4LMIx9O0",
+  authDomain: "seniletisim-2027c.firebaseapp.com",
+  projectId: "seniletisim-2027c",
+  storageBucket: "seniletisim-2027c.firebasestorage.app",
+  messagingSenderId: "863187440862",
+  appId: "1:863187440862:web:f0b2a4fda74f6ba3035e4f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const PASSWORD = "5435641891";
+
+window.login = function(){
+  const pass = document.getElementById("loginPassword").value;
+  const error = document.getElementById("loginError");
+
+  if(pass === PASSWORD){
+    sessionStorage.setItem("sametPanelLogin","true");
+    showPanel();
+  }else{
+    error.innerText = "Şifre hatalı.";
+  }
+}
+
+window.logout = function(){
+  sessionStorage.removeItem("sametPanelLogin");
+  location.reload();
+}
+
+function showPanel(){
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("panelScreen").style.display = "block";
+  renderDevices();
+}
+
+window.saveDevice = async function(){
+  const id = document.getElementById("editId").value;
+
+  const device = {
+    brand: document.getElementById("brand").value,
+    storage: document.getElementById("storage").value,
+    condition: document.getElementById("condition").value,
+    price: document.getElementById("price").value,
+    image: document.getElementById("image").value,
+    note: document.getElementById("note").value,
+    createdAt: Date.now()
+  };
+
+  if(!device.brand || !device.price){
+    alert("Marka/model ve fiyat boş kalmasın.");
+    return;
+  }
+
+  if(id){
+    await updateDoc(doc(db, "devices", id), device);
+  }else{
+    await addDoc(collection(db, "devices"), device);
+  }
+
+  clearForm();
+  renderDevices();
+}
+
+async function renderDevices(){
+  const products = document.getElementById("products");
+  products.innerHTML = `<div class="empty">Yükleniyor...</div>`;
+
+  const q = query(collection(db, "devices"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+
+  if(snapshot.empty){
+    products.innerHTML = `<div class="empty">Henüz cihaz eklenmedi.</div>`;
+    return;
+  }
+
+  products.innerHTML = "";
+
+  snapshot.forEach(docItem => {
+    const device = docItem.data();
+    const id = docItem.id;
+
+    products.innerHTML += `
+      <div class="product">
+        ${device.image ? `<img src="${device.image}" alt="${device.brand}">` : ""}
+        <h3>${device.brand || ""}</h3>
+        <p>${device.storage || ""}</p>
+        <p>${device.condition || ""}</p>
+        <p>${device.note || ""}</p>
+        <div class="price">${device.price || ""}</div>
+
+        <div class="actions">
+          <button class="edit" onclick="editDevice('${id}','${escapeText(device.brand)}','${escapeText(device.storage)}','${escapeText(device.condition)}','${escapeText(device.price)}','${escapeText(device.image)}','${escapeText(device.note)}')">Düzenle</button>
+          <button class="delete" onclick="deleteDevice('${id}')">Sil</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+window.editDevice = function(id, brand, storage, condition, price, image, note){
+  document.getElementById("editId").value = id;
+  document.getElementById("brand").value = brand;
+  document.getElementById("storage").value = storage;
+  document.getElementById("condition").value = condition;
+  document.getElementById("price").value = price;
+  document.getElementById("image").value = image;
+  document.getElementById("note").value = note;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+window.deleteDevice = async function(id){
+  if(confirm("Bu cihaz silinsin mi?")){
+    await deleteDoc(doc(db, "devices", id));
+    renderDevices();
+  }
+}
+
+function clearForm(){
+  document.getElementById("editId").value = "";
+  document.getElementById("brand").value = "";
+  document.getElementById("storage").value = "";
+  document.getElementById("condition").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("image").value = "";
+  document.getElementById("note").value = "";
+}
+
+function escapeText(text = ""){
+  return String(text).replaceAll("'", "&#39;").replaceAll('"', "&quot;");
+}
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter" && document.getElementById("loginScreen").style.display !== "none"){
+    login();
+  }
+});
+
+if(sessionStorage.getItem("sametPanelLogin") === "true"){
+  showPanel();
+}
+</script>
+
+</body>
+</html>
