@@ -487,10 +487,6 @@
   </div>
 </main>
 
-<div class="panel-login" id="panelLogin">
-  <div class="panel-box">
-    <button class="close-panel" onclick="closePanel()">×</button>
-
     <h2>Panel Girişi</h2>
     <p>Şen İletişim yönetim paneli</p>
 
@@ -521,26 +517,13 @@ function toggleMenu(){
 }
 
 function openPanel(){
-  document.getElementById("mobileMenu").classList.remove("active");
-  document.getElementById("panelLogin").classList.add("active");
-  document.getElementById("panelPassword").focus();
+  window.location.href = "https://seniletisim.com.tr/panel/";
 }
 
 function closePanel(){
   document.getElementById("panelLogin").classList.remove("active");
   document.getElementById("panelError").innerText = "";
   document.getElementById("panelPassword").value = "";
-}
-
-function checkPanelPassword(){
-  const password = document.getElementById("panelPassword").value;
-  const error = document.getElementById("panelError");
-
-  if(password === "5435641891"){
-    window.location.href = "https://seniletisim.com.tr/panel";
-  }else{
-    error.innerText = "Şifre hatalı.";
-  }
 }
 
 document.addEventListener("contextmenu", e => e.preventDefault());
