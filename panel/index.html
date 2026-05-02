@@ -1,48 +1,267 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Şen İletişim Panel</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Şen İletişim | Ultra Panel</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#021423;color:white;min-height:100vh}
-.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
-.box,.card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:24px}
-.box{width:100%;max-width:380px;text-align:center}
-h1,h2{color:#06BFBF;margin-bottom:10px}
-p{color:#cde8f2;margin-bottom:15px}
-input,textarea{width:100%;padding:14px;margin-bottom:12px;border:none;border-radius:14px;font-size:15px}
-button{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#06BFBF,#048ABF);color:#021423;font-weight:900;cursor:pointer}
-.error{color:#D92525;font-weight:900;margin-top:10px;display:block}
-.panel{display:none;max-width:1200px;margin:auto;padding:18px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-.logout{max-width:130px;background:#D92525;color:white}
-.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
-.products{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.product{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:16px}
-.product img{width:100%;height:170px;object-fit:cover;border-radius:16px;margin-bottom:12px;background:white}
-.product h3{margin-bottom:6px}
-.product p{font-size:14px;color:#cde8f2;margin-bottom:8px}
-.price{color:#D2D904;font-size:20px;font-weight:900}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.delete{background:#D92525;color:white}
-.edit{background:white;color:#023059}
-.empty{text-align:center;padding:30px;border:1px dashed rgba(255,255,255,.2);border-radius:20px;color:#cde8f2}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.products{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.products{grid-template-columns:1fr}.top{flex-direction:column;align-items:flex-start}.logout{max-width:100%}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#023059;--blue:#048ABF;--turq:#06BFBF;--lime:#D2D904;--red:#D92525;
+  --dark:#021423;--dark2:#03223a;--white:#fff;--soft:#cde8f2;--line:rgba(255,255,255,.14);
+  --glass:rgba(255,255,255,.075);--shadow:0 26px 90px rgba(0,0,0,.38)
+}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 10% 5%,rgba(6,191,191,.28),transparent 30%),
+    radial-gradient(circle at 90% 10%,rgba(4,138,191,.20),transparent 30%),
+    linear-gradient(180deg,var(--navy),var(--dark));
+  color:white;
+  overflow-x:hidden;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.login{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.login-box{
+  width:100%;
+  max-width:420px;
+  padding:30px;
+  border-radius:30px;
+  background:rgba(255,255,255,.09);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(16px);
+  text-align:center;
+}
+.logo{
+  width:74px;
+  height:74px;
+  margin:0 auto 18px;
+  border-radius:24px;
+  background:linear-gradient(135deg,var(--turq),var(--blue),var(--lime));
+  display:grid;
+  place-items:center;
+  color:#021423;
+  font-size:34px;
+  font-weight:900;
+}
+h1{font-size:30px;color:var(--turq);margin-bottom:8px}
+p{color:var(--soft);line-height:1.5}
+input,textarea{
+  width:100%;
+  border:none;
+  outline:none;
+  border-radius:17px;
+  padding:15px;
+  margin-top:12px;
+  background:rgba(255,255,255,.94);
+  color:#021423;
+}
+textarea{min-height:100px;resize:vertical}
+.main-btn{
+  width:100%;
+  margin-top:14px;
+  border:none;
+  border-radius:17px;
+  padding:15px;
+  background:linear-gradient(135deg,var(--turq),var(--blue));
+  color:#021423;
+  font-weight:900;
+  box-shadow:0 14px 35px rgba(6,191,191,.25);
+}
+.error{display:block;margin-top:12px;color:#ff6b6b;font-weight:900}
+.panel{display:none;max-width:1280px;margin:auto;padding:18px}
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:18px;
+  padding:18px;
+  border-radius:28px;
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--line);
+  backdrop-filter:blur(16px);
+}
+.top h1{margin:0}
+.top small{color:var(--soft);font-weight:700}
+.logout{
+  width:auto;
+  min-width:120px;
+  border:none;
+  border-radius:16px;
+  padding:13px 16px;
+  background:var(--red);
+  color:white;
+  font-weight:900;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
+}
+.stat{
+  padding:18px;
+  border-radius:22px;
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--line);
+}
+.stat b{display:block;font-size:24px;color:var(--lime)}
+.stat span{font-size:13px;color:var(--soft)}
+.layout{
+  display:grid;
+  grid-template-columns:390px 1fr;
+  gap:18px;
+}
+.card{
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  backdrop-filter:blur(14px);
+}
+.card h2{color:var(--turq);margin-bottom:14px}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.form-grid input{margin-top:0}
+.full{grid-column:1/-1}
+.save-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+.clear-btn{
+  border:none;
+  border-radius:17px;
+  background:rgba(255,255,255,.9);
+  color:var(--navy);
+  font-weight:900;
+}
+.search{
+  margin-bottom:14px;
+}
+.phones{
+  display:grid;
+  gap:14px;
+}
+.phone{
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:16px;
+  padding:16px;
+  border-radius:26px;
+  background:rgba(255,255,255,.075);
+  border:1px solid var(--line);
+}
+.phone-img{
+  width:100%;
+  height:190px;
+  border-radius:22px;
+  overflow:hidden;
+  background:linear-gradient(135deg,rgba(6,191,191,.18),rgba(4,138,191,.14));
+  display:grid;
+  place-items:center;
+  color:var(--turq);
+  font-size:42px;
+}
+.phone-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.phone h3{font-size:22px;margin-bottom:8px}
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:10px 0;
+}
+.tag{
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(6,191,191,.10);
+  border:1px solid rgba(6,191,191,.28);
+  color:#eaffff;
+  font-size:13px;
+  font-weight:800;
+}
+.price-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+.price-box{
+  padding:12px;
+  border-radius:18px;
+  background:rgba(0,0,0,.20);
+  border:1px solid rgba(255,255,255,.10);
+}
+.price-box span{display:block;color:var(--soft);font-size:12px}
+.price-box b{font-size:19px;color:var(--lime)}
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+.edit,.delete{
+  border:none;
+  border-radius:15px;
+  padding:12px;
+  font-weight:900;
+}
+.edit{background:white;color:var(--navy)}
+.delete{background:var(--red);color:white}
+.empty{
+  padding:32px;
+  border-radius:24px;
+  border:1px dashed var(--line);
+  text-align:center;
+  color:var(--soft);
+}
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:620px){
+  .panel{padding:12px}
+  .top{flex-direction:column;align-items:flex-start}
+  .logout{width:100%}
+  .stats{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
+  .phone{grid-template-columns:1fr}
+  .phone-img{height:240px}
+  .price-grid{grid-template-columns:1fr}
+  .save-row{grid-template-columns:1fr}
+}
 </style>
 </head>
 
 <body>
 
 <div class="login" id="loginScreen">
-  <div class="box">
+  <div class="login-box">
+    <div class="logo">Ş</div>
     <h1>Şen İletişim Panel</h1>
     <p>Bu alan sadece Samet Yerlice içindir.</p>
+
     <input type="password" id="loginPassword" placeholder="Panel şifresi">
-    <button onclick="login()">Panele Gir</button>
+    <button class="main-btn" onclick="login()">Panele Gir</button>
     <span class="error" id="loginError"></span>
   </div>
 </div>
@@ -50,38 +269,62 @@ button{width:100%;padding:14px;border:none;border-radius:14px;background:linear-
 <div class="panel" id="panelScreen">
   <div class="top">
     <div>
-      <h1>Şen İletişim Yönetim Paneli</h1>
-      <p>Telefon cihazlarını ekle, düzenle ve tüm cihazlarda görüntüle.</p>
+      <h1>Ultra Telefon Yönetim Paneli</h1>
+      <small>Firebase bağlantılı cihaz ekleme, düzenleme ve silme sistemi</small>
     </div>
     <button class="logout" onclick="logout()">Çıkış</button>
   </div>
 
-  <div class="grid">
+  <div class="stats">
+    <div class="stat"><b id="totalCount">0</b><span>Toplam Cihaz</span></div>
+    <div class="stat"><b id="newCount">0</b><span>Sıfır Cihaz</span></div>
+    <div class="stat"><b id="secondCount">0</b><span>2. El Cihaz</span></div>
+    <div class="stat"><b id="profitTotal">0 TL</b><span>Olası Kâr</span></div>
+  </div>
+
+  <div class="layout">
     <div class="card">
       <h2>Cihaz Ekle</h2>
 
       <input type="hidden" id="editId">
-      <input id="brand" placeholder="Marka / Model">
-      <input id="storage" placeholder="Hafıza / RAM örn: 128 GB">
-      <input id="condition" placeholder="Durum örn: Sıfır / 2. El">
-      <input id="price" placeholder="Fiyat örn: 12.500 TL">
-      <input id="image" placeholder="Görsel linki">
-      <textarea id="note" rows="4" placeholder="Not / açıklama"></textarea>
 
-      <button onclick="saveDevice()">Kaydet</button>
+      <div class="form-grid">
+        <input id="brand" placeholder="Marka örn: Apple">
+        <input id="model" placeholder="Model örn: iPhone 13">
+        <input id="battery" placeholder="Pil örn: %89">
+        <input id="warranty" placeholder="Garanti örn: 6 Ay / Yok">
+        <input id="buyPrice" placeholder="Alış fiyatı örn: 18.000 TL">
+        <input id="sellPrice" placeholder="Olası satış fiyatı örn: 21.500 TL">
+        <input class="full" id="image" placeholder="Telefon görsel linki">
+        <textarea class="full" id="note" placeholder="Not / açıklama"></textarea>
+      </div>
+
+      <div class="save-row">
+        <button class="main-btn" onclick="savePhone()">Kaydet</button>
+        <button class="clear-btn" onclick="clearForm()">Temizle</button>
+      </div>
     </div>
 
     <div class="card">
-      <h2>Telefon Cihaz Listesi</h2>
-      <div class="products" id="products"></div>
+      <h2>Telefon Listesi</h2>
+      <input class="search" id="searchInput" placeholder="Marka veya model ara..." oninput="renderPhones()">
+      <div class="phones" id="phones"></div>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { 
-  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, orderBy, query 
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  query,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -96,6 +339,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const PASSWORD = "5435641891";
+let cachedPhones = [];
 
 window.login = function(){
   const pass = document.getElementById("loginPassword").value;
@@ -117,103 +361,176 @@ window.logout = function(){
 function showPanel(){
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("panelScreen").style.display = "block";
-  renderDevices();
+  loadPhones();
 }
 
-window.saveDevice = async function(){
+window.savePhone = async function(){
   const id = document.getElementById("editId").value;
 
-  const device = {
-    brand: document.getElementById("brand").value,
-    storage: document.getElementById("storage").value,
-    condition: document.getElementById("condition").value,
-    price: document.getElementById("price").value,
-    image: document.getElementById("image").value,
-    note: document.getElementById("note").value,
+  const phone = {
+    brand: document.getElementById("brand").value.trim(),
+    model: document.getElementById("model").value.trim(),
+    battery: document.getElementById("battery").value.trim(),
+    warranty: document.getElementById("warranty").value.trim(),
+    buyPrice: document.getElementById("buyPrice").value.trim(),
+    sellPrice: document.getElementById("sellPrice").value.trim(),
+    image: document.getElementById("image").value.trim(),
+    note: document.getElementById("note").value.trim(),
     createdAt: Date.now()
   };
 
-  if(!device.brand || !device.price){
-    alert("Marka/model ve fiyat boş kalmasın.");
+  if(!phone.brand || !phone.model || !phone.buyPrice || !phone.sellPrice){
+    alert("Marka, model, alış fiyatı ve satış fiyatı boş kalmasın.");
     return;
   }
 
   if(id){
-    await updateDoc(doc(db, "devices", id), device);
+    await updateDoc(doc(db, "phones", id), phone);
   }else{
-    await addDoc(collection(db, "devices"), device);
+    await addDoc(collection(db, "phones"), phone);
   }
 
   clearForm();
-  renderDevices();
+  loadPhones();
 }
 
-async function renderDevices(){
-  const products = document.getElementById("products");
-  products.innerHTML = `<div class="empty">Yükleniyor...</div>`;
+async function loadPhones(){
+  const phonesBox = document.getElementById("phones");
+  phonesBox.innerHTML = `<div class="empty">Telefonlar yükleniyor...</div>`;
 
-  const q = query(collection(db, "devices"), orderBy("createdAt", "desc"));
+  const q = query(collection(db, "phones"), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
 
-  if(snapshot.empty){
-    products.innerHTML = `<div class="empty">Henüz cihaz eklenmedi.</div>`;
+  cachedPhones = [];
+  snapshot.forEach(item => {
+    cachedPhones.push({ id:item.id, ...item.data() });
+  });
+
+  renderPhones();
+}
+
+window.renderPhones = function(){
+  const phonesBox = document.getElementById("phones");
+  const search = document.getElementById("searchInput").value.toLowerCase().trim();
+
+  let phones = cachedPhones.filter(p =>
+    `${p.brand || ""} ${p.model || ""}`.toLowerCase().includes(search)
+  );
+
+  updateStats();
+
+  if(phones.length === 0){
+    phonesBox.innerHTML = `<div class="empty">Telefon bulunamadı.</div>`;
     return;
   }
 
-  products.innerHTML = "";
+  phonesBox.innerHTML = phones.map(phone => `
+    <div class="phone">
+      <div class="phone-img">
+        ${phone.image ? `<img src="${safe(phone.image)}" alt="${safe(phone.brand)} ${safe(phone.model)}">` : "📱"}
+      </div>
 
-  snapshot.forEach(docItem => {
-    const device = docItem.data();
-    const id = docItem.id;
+      <div>
+        <h3>${safe(phone.brand)} ${safe(phone.model)}</h3>
 
-    products.innerHTML += `
-      <div class="product">
-        ${device.image ? `<img src="${device.image}" alt="${device.brand}">` : ""}
-        <h3>${device.brand || ""}</h3>
-        <p>${device.storage || ""}</p>
-        <p>${device.condition || ""}</p>
-        <p>${device.note || ""}</p>
-        <div class="price">${device.price || ""}</div>
+        <div class="tags">
+          <span class="tag">Pil: ${safe(phone.battery || "-")}</span>
+          <span class="tag">Garanti: ${safe(phone.warranty || "-")}</span>
+        </div>
+
+        <p>${safe(phone.note || "Açıklama eklenmedi.")}</p>
+
+        <div class="price-grid">
+          <div class="price-box">
+            <span>Alış Fiyatı</span>
+            <b>${safe(phone.buyPrice)}</b>
+          </div>
+          <div class="price-box">
+            <span>Olası Satış</span>
+            <b>${safe(phone.sellPrice)}</b>
+          </div>
+        </div>
 
         <div class="actions">
-          <button class="edit" onclick="editDevice('${id}','${escapeText(device.brand)}','${escapeText(device.storage)}','${escapeText(device.condition)}','${escapeText(device.price)}','${escapeText(device.image)}','${escapeText(device.note)}')">Düzenle</button>
-          <button class="delete" onclick="deleteDevice('${id}')">Sil</button>
+          <button class="edit" onclick="editPhone('${phone.id}')">Düzenle</button>
+          <button class="delete" onclick="deletePhone('${phone.id}')">Sil</button>
         </div>
       </div>
-    `;
-  });
+    </div>
+  `).join("");
 }
 
-window.editDevice = function(id, brand, storage, condition, price, image, note){
-  document.getElementById("editId").value = id;
-  document.getElementById("brand").value = brand;
-  document.getElementById("storage").value = storage;
-  document.getElementById("condition").value = condition;
-  document.getElementById("price").value = price;
-  document.getElementById("image").value = image;
-  document.getElementById("note").value = note;
+function updateStats(){
+  document.getElementById("totalCount").innerText = cachedPhones.length;
+
+  const newCount = cachedPhones.filter(p =>
+    `${p.note} ${p.warranty}`.toLowerCase().includes("sıfır") ||
+    `${p.note} ${p.warranty}`.toLowerCase().includes("sifir")
+  ).length;
+
+  document.getElementById("newCount").innerText = newCount;
+  document.getElementById("secondCount").innerText = Math.max(cachedPhones.length - newCount, 0);
+
+  let profit = 0;
+  cachedPhones.forEach(p => {
+    profit += parsePrice(p.sellPrice) - parsePrice(p.buyPrice);
+  });
+
+  document.getElementById("profitTotal").innerText = formatTL(profit);
+}
+
+window.editPhone = function(id){
+  const phone = cachedPhones.find(p => p.id === id);
+  if(!phone) return;
+
+  document.getElementById("editId").value = phone.id;
+  document.getElementById("brand").value = phone.brand || "";
+  document.getElementById("model").value = phone.model || "";
+  document.getElementById("battery").value = phone.battery || "";
+  document.getElementById("warranty").value = phone.warranty || "";
+  document.getElementById("buyPrice").value = phone.buyPrice || "";
+  document.getElementById("sellPrice").value = phone.sellPrice || "";
+  document.getElementById("image").value = phone.image || "";
+  document.getElementById("note").value = phone.note || "";
+
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-window.deleteDevice = async function(id){
-  if(confirm("Bu cihaz silinsin mi?")){
-    await deleteDoc(doc(db, "devices", id));
-    renderDevices();
+window.deletePhone = async function(id){
+  if(confirm("Bu telefon silinsin mi?")){
+    await deleteDoc(doc(db, "phones", id));
+    loadPhones();
   }
 }
 
-function clearForm(){
+window.clearForm = function(){
   document.getElementById("editId").value = "";
   document.getElementById("brand").value = "";
-  document.getElementById("storage").value = "";
-  document.getElementById("condition").value = "";
-  document.getElementById("price").value = "";
+  document.getElementById("model").value = "";
+  document.getElementById("battery").value = "";
+  document.getElementById("warranty").value = "";
+  document.getElementById("buyPrice").value = "";
+  document.getElementById("sellPrice").value = "";
   document.getElementById("image").value = "";
   document.getElementById("note").value = "";
 }
 
-function escapeText(text = ""){
-  return String(text).replaceAll("'", "&#39;").replaceAll('"', "&quot;");
+function parsePrice(value){
+  if(!value) return 0;
+  return Number(String(value).replace(/[^\d]/g,"")) || 0;
+}
+
+function formatTL(value){
+  return new Intl.NumberFormat("tr-TR").format(value) + " TL";
+}
+
+function safe(value){
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
 document.addEventListener("keydown", function(e){
@@ -221,6 +538,11 @@ document.addEventListener("keydown", function(e){
     login();
   }
 });
+
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("copy", e => e.preventDefault());
+document.addEventListener("cut", e => e.preventDefault());
+document.addEventListener("selectstart", e => e.preventDefault());
 
 if(sessionStorage.getItem("sametPanelLogin") === "true"){
   showPanel();
