@@ -130,34 +130,18 @@ textarea{min-height:95px;resize:vertical}
 .phone-card{
   position:relative;
   border-radius:28px;
-  padding:16px;
+  padding:18px;
   display:grid;
-  grid-template-columns:175px 1fr 42px;
+  grid-template-columns:1fr 42px;
   gap:16px;
-  align-items:stretch;
 }
 .phone-card.sold{
   background:rgba(17,185,87,.22);
   border-color:rgba(17,185,87,.55);
 }
-.phone-img{
-  height:190px;
-  border-radius:22px;
-  background:rgba(255,255,255,.10);
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  color:var(--turq);
-  font-size:42px;
-}
-.phone-img img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
 .phone-info h2{
   color:#fff;
-  font-size:24px;
+  font-size:25px;
   margin-bottom:8px;
 }
 .tags{
@@ -207,24 +191,25 @@ textarea{min-height:95px;resize:vertical}
 }
 .action-menu{
   position:absolute;
-  right:16px;
-  top:62px;
-  width:150px;
+  right:14px;
+  top:54px;
+  width:118px;
   display:none;
   background:#fff;
   color:var(--navy);
-  border-radius:18px;
-  padding:8px;
+  border-radius:14px;
+  padding:6px;
   z-index:5;
-  box-shadow:0 18px 50px rgba(0,0,0,.35);
+  box-shadow:0 14px 35px rgba(0,0,0,.32);
 }
-.action-menu.active{display:grid;gap:7px}
+.action-menu.active{display:grid;gap:5px}
 .action-menu button{
   width:100%;
-  padding:11px;
-  border-radius:13px;
+  padding:8px 9px;
+  border-radius:10px;
   font-weight:900;
   text-align:left;
+  font-size:12px;
 }
 .edit{background:#eef8fb;color:var(--navy)}
 .sold-btn{background:#dfffe9;color:#087235}
@@ -237,7 +222,6 @@ textarea{min-height:95px;resize:vertical}
   color:var(--soft);
 }
 
-/* MODAL DÜZELTİLDİ */
 .modal{
   position:fixed;
   inset:0;
@@ -258,11 +242,6 @@ textarea{min-height:95px;resize:vertical}
   overflow-y:auto;
   border-radius:30px;
   padding:24px;
-}
-.modal-box::-webkit-scrollbar{width:6px}
-.modal-box::-webkit-scrollbar-thumb{
-  background:rgba(255,255,255,.25);
-  border-radius:999px;
 }
 .modal-top{
   display:flex;
@@ -293,23 +272,6 @@ textarea{min-height:95px;resize:vertical}
   font-size:13px;
 }
 .full{grid-column:1/-1}
-.preview{
-  width:100%;
-  height:190px;
-  border-radius:20px;
-  background:rgba(255,255,255,.08);
-  margin-top:10px;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  color:var(--soft);
-  border:1px dashed var(--line);
-}
-.preview img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
 .save{
   margin-top:16px;
 }
@@ -323,10 +285,7 @@ footer b{color:var(--turq)}
 
 @media(max-width:760px){
   .panel{padding:12px}
-  .welcome{
-    padding:20px;
-    border-radius:24px;
-  }
+  .welcome{padding:20px;border-radius:24px}
   .welcome h1{font-size:30px}
   .welcome p{font-size:14px}
 
@@ -353,17 +312,13 @@ footer b{color:var(--turq)}
   .stat span{font-size:11px}
 
   .phone-card{
-    grid-template-columns:105px 1fr 34px;
+    grid-template-columns:1fr 34px;
     gap:10px;
-    padding:11px;
+    padding:13px;
     border-radius:22px;
   }
-  .phone-img{
-    height:125px;
-    border-radius:17px;
-  }
   .phone-info h2{
-    font-size:17px;
+    font-size:18px;
   }
   .tags{
     gap:5px;
@@ -428,9 +383,6 @@ footer b{color:var(--turq)}
   textarea{
     min-height:80px;
   }
-  .preview{
-    height:145px;
-  }
   .save{
     margin-top:12px;
     padding:13px;
@@ -452,15 +404,8 @@ footer b{color:var(--turq)}
     font-size:25px;
   }
 
-  .phone-card{
-    grid-template-columns:92px 1fr 32px;
-    gap:8px;
-  }
-  .phone-img{
-    height:112px;
-  }
   .phone-info h2{
-    font-size:15.5px;
+    font-size:16px;
     margin-bottom:5px;
   }
   .tag{
@@ -485,10 +430,6 @@ footer b{color:var(--turq)}
     border-radius:22px;
   }
 
-  .preview{
-    height:130px;
-  }
-
   footer{
     font-size:13px;
     padding-bottom:28px;
@@ -503,6 +444,7 @@ footer b{color:var(--turq)}
   <div class="login-box">
     <h1>Giriş</h1>
     <p>Şen İletişim Yönetim Paneli</p>
+    &nbsp;
     <input type="password" id="loginPassword" placeholder="Şifre">
     <button class="main-btn" style="margin-top:14px" onclick="login()">Giriş Yap</button>
     <span class="error" id="loginError"></span>
@@ -547,7 +489,7 @@ footer b{color:var(--turq)}
     <div class="modal-top">
       <div>
         <h1 id="modalTitle">Telefon Ekle</h1>
-        <p>Marka, model, fiyat ve görsel linkini gir.</p>
+        <p>Marka, model, GB, kasa durumu ve fiyat bilgilerini gir.</p>
       </div>
       <button class="close" onclick="closeModal()">×</button>
     </div>
@@ -586,6 +528,30 @@ footer b{color:var(--turq)}
       </label>
 
       <label>
+        Hafıza
+        <select id="storageGb">
+          <option value="">GB seç</option>
+          <option>32 GB</option>
+          <option>64 GB</option>
+          <option>128 GB</option>
+          <option>256 GB</option>
+          <option>512 GB</option>
+          <option>1 TB</option>
+        </select>
+      </label>
+
+      <label>
+        Kasa Durumu
+        <select id="caseStatus">
+          <option value="">Kasa durumu seç</option>
+          <option>Çok iyi</option>
+          <option>İyi</option>
+          <option>Normal</option>
+          <option>Kötü</option>
+        </select>
+      </label>
+
+      <label>
         Pil Ömrü
         <input id="battery" placeholder="Sadece Apple için aktif" disabled>
       </label>
@@ -607,12 +573,6 @@ footer b{color:var(--turq)}
       <label>
         Satış Fiyatı
         <input id="sellPrice" type="number" placeholder="₺">
-      </label>
-
-      <label class="full">
-        Telefon Görsel Linki
-        <input id="imageUrl" placeholder="https://...">
-        <div class="preview" id="previewBox">Görsel önizleme</div>
       </label>
 
       <label class="full">
@@ -735,35 +695,25 @@ window.batteryControl = function(){
   }
 }
 
-document.getElementById("imageUrl").addEventListener("input", function(){
-  const url = this.value.trim();
-  const box = document.getElementById("previewBox");
-
-  if(url){
-    box.innerHTML = `<img src="${safe(url)}" onerror="this.parentElement.innerHTML='Görsel yüklenemedi'">`;
-  }else{
-    box.innerHTML = "Görsel önizleme";
-  }
-});
-
 window.savePhone = async function(){
   const id = document.getElementById("editId").value;
 
   const phone = {
     brand: document.getElementById("brand").value,
     model: document.getElementById("model").value,
+    storageGb: document.getElementById("storageGb").value,
+    caseStatus: document.getElementById("caseStatus").value,
     battery: document.getElementById("battery").value,
     warranty: document.getElementById("warranty").value,
     buyPrice: Number(document.getElementById("buyPrice").value || 0),
     sellPrice: Number(document.getElementById("sellPrice").value || 0),
-    image: document.getElementById("imageUrl").value.trim(),
     note: document.getElementById("note").value,
     sold: false,
     createdAt: Date.now()
   };
 
-  if(!phone.brand || !phone.model || !phone.buyPrice || !phone.sellPrice){
-    alert("Marka, model, geliş fiyatı ve satış fiyatı boş kalmasın.");
+  if(!phone.brand || !phone.model || !phone.storageGb || !phone.caseStatus || !phone.buyPrice || !phone.sellPrice){
+    alert("Marka, model, GB, kasa durumu, geliş fiyatı ve satış fiyatı boş kalmasın.");
     return;
   }
 
@@ -815,14 +765,12 @@ function renderPhones(){
 
   list.innerHTML = phones.map(phone => `
     <div class="phone-card ${phone.sold ? "sold" : ""}">
-      <div class="phone-img">
-        ${phone.image ? `<img src="${safe(phone.image)}">` : "📱"}
-      </div>
-
       <div class="phone-info">
         <h2>${safe(phone.brand)} ${safe(phone.model)}</h2>
 
         <div class="tags">
+          <span class="tag">GB: ${safe(phone.storageGb || "-")}</span>
+          <span class="tag">Kasa: ${safe(phone.caseStatus || "-")}</span>
           <span class="tag">Pil: ${phone.brand === "Apple" ? safe(phone.battery || "-") : "Yok"}</span>
           <span class="tag">Garanti: ${safe(phone.warranty || "-")}</span>
           <span class="tag">${phone.sold ? "Satıldı" : "Stokta"}</span>
@@ -869,14 +817,14 @@ window.editPhone = function(id){
   document.getElementById("brand").value = phone.brand;
   fillModels();
   document.getElementById("model").value = phone.model;
+  document.getElementById("storageGb").value = phone.storageGb || "";
+  document.getElementById("caseStatus").value = phone.caseStatus || "";
   batteryControl();
   document.getElementById("battery").value = phone.battery || "";
   document.getElementById("warranty").value = phone.warranty || "";
   document.getElementById("buyPrice").value = phone.buyPrice || "";
   document.getElementById("sellPrice").value = phone.sellPrice || "";
-  document.getElementById("imageUrl").value = phone.image || "";
   document.getElementById("note").value = phone.note || "";
-  document.getElementById("previewBox").innerHTML = phone.image ? `<img src="${safe(phone.image)}">` : "Görsel önizleme";
 
   document.getElementById("phoneModal").classList.add("active");
 }
@@ -903,14 +851,14 @@ window.clearForm = function(){
   document.getElementById("editId").value = "";
   document.getElementById("brand").value = "";
   document.getElementById("model").innerHTML = `<option value="">Önce marka seç</option>`;
+  document.getElementById("storageGb").value = "";
+  document.getElementById("caseStatus").value = "";
   document.getElementById("battery").value = "";
   document.getElementById("battery").disabled = true;
   document.getElementById("warranty").value = "";
   document.getElementById("buyPrice").value = "";
   document.getElementById("sellPrice").value = "";
-  document.getElementById("imageUrl").value = "";
   document.getElementById("note").value = "";
-  document.getElementById("previewBox").innerHTML = "Görsel önizleme";
 }
 
 function formatTL(value){
