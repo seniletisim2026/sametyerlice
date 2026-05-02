@@ -6,7 +6,7 @@
   <title>Şen İletişim | Telefon • Aksesuar • Tamir</title>
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
     :root{
       --navy:#023059;--blue:#048ABF;--turq:#06BFBF;--lime:#D2D904;--red:#D92525;
       --dark:#021423;--dark2:#03223a;--white:#ffffff;--soft:#cde8f2;--muted:#8fb8c9;
@@ -52,10 +52,57 @@
       display:block;margin-top:5px;color:var(--turq);
       font-size:clamp(11px,2.3vw,13px);font-weight:700;line-height:1.25
     }
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-shrink:0;
+    }
     .tt-logo{
       height:58px;max-width:220px;object-fit:contain;flex-shrink:0;
       background:#fff;padding:8px 14px;border-radius:16px;
       box-shadow:0 12px 30px rgba(0,0,0,.22)
+    }
+    .menu-btn{
+      width:50px;
+      height:50px;
+      border:none;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--turq),var(--blue));
+      color:#021423;
+      font-size:26px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 12px 30px rgba(0,0,0,.22)
+    }
+
+    .mobile-menu{
+      position:fixed;
+      top:92px;
+      right:18px;
+      width:230px;
+      background:rgba(255,255,255,.96);
+      color:var(--navy);
+      border-radius:22px;
+      padding:14px;
+      display:none;
+      flex-direction:column;
+      gap:10px;
+      z-index:1200;
+      box-shadow:0 24px 80px rgba(0,0,0,.35)
+    }
+    .mobile-menu.active{display:flex}
+    .mobile-menu a,
+    .mobile-menu button{
+      width:100%;
+      border:none;
+      border-radius:15px;
+      padding:13px 14px;
+      background:#eef8fb;
+      color:var(--navy);
+      font-weight:900;
+      text-align:left;
+      cursor:pointer
     }
 
     main{padding-top:108px}
@@ -101,7 +148,7 @@
     .hero-visual{width:100%}
     .hero-visual img{
       width:100%;
-      height:560px; /* 520 → 560 */
+      height:560px;
       object-fit:cover;
       object-position:center;
       border-radius:28px;
@@ -184,13 +231,83 @@
     }
     footer b{color:var(--turq)}
 
+    .panel-login{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.72);
+      backdrop-filter:blur(12px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:2000;
+      padding:18px
+    }
+    .panel-login.active{display:flex}
+    .panel-box{
+      width:100%;
+      max-width:380px;
+      background:#fff;
+      color:var(--navy);
+      border-radius:28px;
+      padding:28px;
+      text-align:center;
+      position:relative;
+      box-shadow:0 30px 90px rgba(0,0,0,.42)
+    }
+    .panel-box h2{
+      font-size:26px;
+      margin-bottom:8px
+    }
+    .panel-box p{
+      color:#426b7c;
+      margin-bottom:18px
+    }
+    .panel-box input{
+      width:100%;
+      padding:15px;
+      border-radius:16px;
+      border:1px solid #d9e8ef;
+      outline:none;
+      font-size:16px;
+      margin-bottom:12px
+    }
+    .panel-box button{
+      width:100%;
+      border:none;
+      border-radius:16px;
+      padding:15px;
+      background:linear-gradient(135deg,var(--turq),var(--blue));
+      color:#021423;
+      font-weight:900;
+      cursor:pointer
+    }
+    .close-panel{
+      position:absolute;
+      top:12px;
+      right:12px;
+      width:36px!important;
+      height:36px;
+      padding:0!important;
+      border-radius:50%!important;
+      background:var(--navy)!important;
+      color:#fff!important
+    }
+    #panelError{
+      display:block;
+      margin-top:12px;
+      color:var(--red);
+      font-weight:900
+    }
+    button:active,a:active{transform:scale(.97)}
+
     @media(max-width:900px){
       main{padding-top:98px}
       .container{padding:18px 14px}
       .hero,.grid,.grid-3{grid-template-columns:1fr}
       .hero{padding:22px 16px;border-radius:26px;gap:22px}
-      .hero-visual img{height:400px} /* 360 → 400 */
+      .hero-visual img{height:400px}
       .tt-logo{height:44px;max-width:150px;padding:7px 10px;border-radius:13px}
+      .menu-btn{width:44px;height:44px;border-radius:14px;font-size:23px}
       .card{padding:20px;border-radius:24px}
       .shop-img{height:240px}
       .call-btn{width:calc(100% - 18px)}
@@ -202,10 +319,12 @@
       .brand strong{font-size:18px}
       .brand span{font-size:10.5px}
       .tt-logo{height:38px;max-width:120px}
+      .menu-btn{width:40px;height:40px;border-radius:13px;font-size:21px}
+      .mobile-menu{top:86px;right:12px}
       .hero h1{font-size:29px}
       .hero p,.card p{font-size:14.5px}
       .badge{width:100%;text-align:center}
-      .hero-visual img{height:340px;border-radius:22px} /* 300 → 340 */
+      .hero-visual img{height:340px;border-radius:22px}
       .hour{flex-direction:column;gap:2px;align-items:flex-start}
       iframe{height:280px}
     }
@@ -225,9 +344,18 @@
       <span>Telefon • Aksesuar • Tamir</span>
     </div>
 
-    <img class="tt-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/T%C3%BCrk_Telekom_logo.svg/1280px-T%C3%BCrk_Telekom_logo.svg.png" alt="Türk Telekom Logo">
+    <div class="nav-actions">
+      <img class="tt-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/T%C3%BCrk_Telekom_logo.svg/1280px-T%C3%BCrk_Telekom_logo.svg.png" alt="Türk Telekom Logo">
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
   </div>
 </header>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="toggleMenu()">Ana Sayfa</a>
+  <a href="#hakkimda" onclick="toggleMenu()">Hakkımda</a>
+  <button onclick="openPanel()">Panel</button>
+</nav>
 
 <main>
   <div class="container">
@@ -256,7 +384,7 @@
       </div>
     </section>
 
-    <section class="grid">
+    <section class="grid" id="hakkimda">
       <div class="card">
         <h2>Samet Yerlice Hakkında</h2>
 
@@ -271,7 +399,7 @@
           doğru bilgi alması ve hızlı şekilde işlem yapabilmesidir.
         </p>
 
-        <img class="shop-img" src="https://lh3.googleusercontent.com/GMAxqnad5bme_RSPIbgl7507uzfG6zCW2L9jizQ84NNRWTw2YybDCHaA58soBhY_4V1vq5IXlazrkJwA=w1905" alt="Şen İletişim Dükkan Fotoğrafı">
+        <img class="shop-img" src="https://teknoway.com.tr/wp-content/uploads/2022/07/Android-Telefon-Tamiri.jpg" alt="Şen İletişim Dükkan Fotoğrafı">
       </div>
 
       <div class="card">
@@ -359,6 +487,21 @@
   </div>
 </main>
 
+<div class="panel-login" id="panelLogin">
+  <div class="panel-box">
+    <button class="close-panel" onclick="closePanel()">×</button>
+
+    <h2>Panel Girişi</h2>
+    <p>Şen İletişim yönetim paneli</p>
+
+    <input type="password" id="panelPassword" placeholder="Şifreyi girin">
+
+    <button onclick="checkPanelPassword()">Giriş Yap</button>
+
+    <span id="panelError"></span>
+  </div>
+</div>
+
 <footer>
   <b>Kaan Ayaz Web Developer</b> tarafından hazırlanmıştır
 </footer>
@@ -372,6 +515,44 @@ let loadedPhones = false;
 function openPriceModal(){
   console.log("modal açıldı");
 }
+
+function toggleMenu(){
+  document.getElementById("mobileMenu").classList.toggle("active");
+}
+
+function openPanel(){
+  document.getElementById("mobileMenu").classList.remove("active");
+  document.getElementById("panelLogin").classList.add("active");
+  document.getElementById("panelPassword").focus();
+}
+
+function closePanel(){
+  document.getElementById("panelLogin").classList.remove("active");
+  document.getElementById("panelError").innerText = "";
+  document.getElementById("panelPassword").value = "";
+}
+
+function checkPanelPassword(){
+  const password = document.getElementById("panelPassword").value;
+  const error = document.getElementById("panelError");
+
+  if(password === "5435641891"){
+    window.location.href = "https://seniletisim.com.tr/panel";
+  }else{
+    error.innerText = "Şifre hatalı.";
+  }
+}
+
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("copy", e => e.preventDefault());
+document.addEventListener("cut", e => e.preventDefault());
+document.addEventListener("selectstart", e => e.preventDefault());
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter" && document.getElementById("panelLogin").classList.contains("active")){
+    checkPanelPassword();
+  }
+});
 </script>
 
 </body>
