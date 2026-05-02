@@ -22,6 +22,7 @@ body{
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer;border:none}
+
 .login{
   min-height:100vh;
   display:flex;
@@ -70,7 +71,13 @@ textarea{min-height:95px;resize:vertical}
   font-weight:900;
 }
 .error{display:block;margin-top:12px;color:#ff7979;font-weight:900}
-.panel{display:none;max-width:1250px;margin:auto;padding:18px}
+
+.panel{
+  display:none;
+  max-width:1250px;
+  margin:auto;
+  padding:18px;
+}
 .welcome{
   border-radius:30px;
   padding:24px;
@@ -82,6 +89,7 @@ textarea{min-height:95px;resize:vertical}
 }
 .welcome h1 span{color:white}
 .welcome p{font-size:16px;font-weight:700}
+
 .top-buttons{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -96,6 +104,7 @@ textarea{min-height:95px;resize:vertical}
 }
 .exit-btn{background:#fff;color:var(--navy)}
 .add-btn{background:linear-gradient(135deg,var(--turq),var(--blue));color:#021423}
+
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -113,6 +122,7 @@ textarea{min-height:95px;resize:vertical}
   margin-bottom:4px;
 }
 .stat span{color:var(--soft);font-weight:800}
+
 .phone-list{
   display:grid;
   gap:14px;
@@ -226,6 +236,7 @@ textarea{min-height:95px;resize:vertical}
   border-radius:24px;
   color:var(--soft);
 }
+
 .modal{
   position:fixed;
   inset:0;
@@ -300,20 +311,160 @@ footer{
   font-size:14px;
 }
 footer b{color:var(--turq)}
+
 @media(max-width:760px){
   .panel{padding:12px}
-  .top-buttons,.stats{grid-template-columns:1fr}
-  .phone-card{grid-template-columns:120px 1fr 38px;gap:11px;padding:12px}
-  .phone-img{height:145px;border-radius:18px}
-  .phone-info h2{font-size:19px}
-  .price-row{grid-template-columns:1fr}
-  .form-grid{grid-template-columns:1fr}
+  .welcome{
+    padding:20px;
+    border-radius:24px;
+  }
+  .welcome h1{font-size:30px}
+  .welcome p{font-size:14px}
+
+  .top-buttons{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .exit-btn,.add-btn{
+    padding:14px 10px;
+    font-size:14px;
+    border-radius:15px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  .stat{
+    padding:13px 8px;
+    border-radius:18px;
+    text-align:center;
+  }
+  .stat b{
+    font-size:20px;
+  }
+  .stat span{
+    font-size:11px;
+  }
+
+  .phone-card{
+    grid-template-columns:105px 1fr 34px;
+    gap:10px;
+    padding:11px;
+    border-radius:22px;
+  }
+  .phone-img{
+    height:125px;
+    border-radius:17px;
+  }
+  .phone-info h2{
+    font-size:17px;
+    padding-right:0;
+  }
+  .tags{
+    gap:5px;
+    margin:7px 0;
+  }
+  .tag{
+    font-size:10.5px;
+    padding:5px 7px;
+  }
+  .phone-info p{
+    font-size:12px;
+    line-height:1.35;
+  }
+  .price-row{
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+  }
+  .price-box{
+    padding:8px;
+    border-radius:13px;
+  }
+  .price-box span{
+    font-size:10px;
+  }
+  .price-box b{
+    font-size:14px;
+  }
+  .menu-dot{
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    font-size:20px;
+  }
+  .action-menu{
+    right:10px;
+    top:50px;
+  }
+
+  .modal{
+    padding:10px;
+  }
+  .modal-box{
+    max-height:92vh;
+    border-radius:24px;
+    padding:18px;
+  }
+  .modal-top h1{
+    font-size:23px;
+  }
+  .form-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+  input,select,textarea{
+    padding:12px;
+    border-radius:13px;
+    font-size:13px;
+  }
+  .preview{
+    height:170px;
+  }
 }
+
 @media(max-width:470px){
-  .phone-card{grid-template-columns:1fr}
-  .menu-dot{position:absolute;right:14px;top:14px}
-  .action-menu{top:60px}
-  .phone-img{height:240px}
+  .login-box{
+    padding:24px;
+    border-radius:26px;
+  }
+  .logo{
+    width:64px;
+    height:64px;
+    font-size:30px;
+  }
+
+  .welcome h1{
+    font-size:25px;
+  }
+
+  .phone-card{
+    grid-template-columns:92px 1fr 32px;
+    gap:8px;
+  }
+  .phone-img{
+    height:112px;
+  }
+  .phone-info h2{
+    font-size:15.5px;
+    margin-bottom:5px;
+  }
+  .tag{
+    font-size:9.5px;
+    padding:4px 6px;
+  }
+  .price-box b{
+    font-size:13px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  footer{
+    font-size:13px;
+    padding-bottom:28px;
+  }
 }
 </style>
 </head>
@@ -322,8 +473,8 @@ footer b{color:var(--turq)}
 
 <div class="login" id="loginScreen">
   <div class="login-box">
-    <h1>Panel Girişi</h1>
-    <p>Şen İletişim yönetim paneli</p>
+    <h1>Panel</h1>
+    <p>Şen İletişim Yönetim Girişi</p>
     <input type="password" id="loginPassword" placeholder="Şifre">
     <button class="main-btn" style="margin-top:14px" onclick="login()">Giriş Yap</button>
     <span class="error" id="loginError"></span>
