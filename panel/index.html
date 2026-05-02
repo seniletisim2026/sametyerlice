@@ -3,26 +3,25 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Şen İletişim | Ultra Panel</title>
+<title>Şen İletişim | Samet Panel</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;-webkit-tap-highlight-color:transparent}
 :root{
   --navy:#023059;--blue:#048ABF;--turq:#06BFBF;--lime:#D2D904;--red:#D92525;
-  --dark:#021423;--dark2:#03223a;--white:#fff;--soft:#cde8f2;--line:rgba(255,255,255,.14);
-  --glass:rgba(255,255,255,.075);--shadow:0 26px 90px rgba(0,0,0,.38)
+  --dark:#021423;--white:#fff;--soft:#cde8f2;--line:rgba(255,255,255,.14);
+  --glass:rgba(255,255,255,.08);--shadow:0 26px 90px rgba(0,0,0,.38)
 }
 body{
   min-height:100vh;
   background:
-    radial-gradient(circle at 10% 5%,rgba(6,191,191,.28),transparent 30%),
+    radial-gradient(circle at 10% 5%,rgba(6,191,191,.30),transparent 32%),
     radial-gradient(circle at 90% 10%,rgba(4,138,191,.20),transparent 30%),
     linear-gradient(180deg,var(--navy),var(--dark));
   color:white;
-  overflow-x:hidden;
 }
-button,input,textarea{font:inherit}
-button{cursor:pointer}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:none}
 .login{
   min-height:100vh;
   display:flex;
@@ -30,151 +29,114 @@ button{cursor:pointer}
   justify-content:center;
   padding:18px;
 }
-.login-box{
-  width:100%;
-  max-width:420px;
-  padding:30px;
-  border-radius:30px;
-  background:rgba(255,255,255,.09);
+.login-box,.welcome,.stat,.phone-card,.modal-box{
+  background:var(--glass);
   border:1px solid var(--line);
   box-shadow:var(--shadow);
   backdrop-filter:blur(16px);
+}
+.login-box{
+  width:100%;
+  max-width:420px;
+  border-radius:30px;
+  padding:30px;
   text-align:center;
 }
 .logo{
-  width:74px;
-  height:74px;
-  margin:0 auto 18px;
+  width:74px;height:74px;margin:0 auto 18px;
   border-radius:24px;
+  display:grid;place-items:center;
   background:linear-gradient(135deg,var(--turq),var(--blue),var(--lime));
-  display:grid;
-  place-items:center;
-  color:#021423;
-  font-size:34px;
-  font-weight:900;
+  color:#021423;font-size:34px;font-weight:900;
 }
-h1{font-size:30px;color:var(--turq);margin-bottom:8px}
+h1{color:var(--turq);font-size:30px;margin-bottom:6px}
 p{color:var(--soft);line-height:1.5}
-input,textarea{
+input,select,textarea{
   width:100%;
+  padding:15px;
   border:none;
   outline:none;
-  border-radius:17px;
-  padding:15px;
-  margin-top:12px;
-  background:rgba(255,255,255,.94);
+  border-radius:16px;
+  background:#fff;
   color:#021423;
 }
-textarea{min-height:100px;resize:vertical}
+textarea{min-height:95px;resize:vertical}
 .main-btn{
   width:100%;
-  margin-top:14px;
-  border:none;
-  border-radius:17px;
   padding:15px;
+  border-radius:16px;
   background:linear-gradient(135deg,var(--turq),var(--blue));
   color:#021423;
   font-weight:900;
-  box-shadow:0 14px 35px rgba(6,191,191,.25);
 }
-.error{display:block;margin-top:12px;color:#ff6b6b;font-weight:900}
-.panel{display:none;max-width:1280px;margin:auto;padding:18px}
-.top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.error{display:block;margin-top:12px;color:#ff7979;font-weight:900}
+.panel{display:none;max-width:1250px;margin:auto;padding:18px}
+.welcome{
+  border-radius:30px;
+  padding:24px;
+  margin-bottom:16px;
+}
+.welcome h1{
+  font-size:clamp(28px,5vw,46px);
+  line-height:1.05;
+}
+.welcome h1 span{color:white}
+.welcome p{font-size:16px;font-weight:700}
+.top-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:14px;
-  margin-bottom:18px;
-  padding:18px;
-  border-radius:28px;
-  background:rgba(255,255,255,.08);
-  border:1px solid var(--line);
-  backdrop-filter:blur(16px);
+  margin-bottom:16px;
 }
-.top h1{margin:0}
-.top small{color:var(--soft);font-weight:700}
-.logout{
-  width:auto;
-  min-width:120px;
-  border:none;
-  border-radius:16px;
-  padding:13px 16px;
-  background:var(--red);
-  color:white;
+.exit-btn,.add-btn{
+  padding:16px;
+  border-radius:18px;
   font-weight:900;
+  font-size:16px;
 }
+.exit-btn{background:#fff;color:var(--navy)}
+.add-btn{background:linear-gradient(135deg,var(--turq),var(--blue));color:#021423}
 .stats{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:14px;
   margin-bottom:18px;
 }
 .stat{
-  padding:18px;
-  border-radius:22px;
-  background:rgba(255,255,255,.08);
-  border:1px solid var(--line);
+  border-radius:24px;
+  padding:20px;
 }
-.stat b{display:block;font-size:24px;color:var(--lime)}
-.stat span{font-size:13px;color:var(--soft)}
-.layout{
-  display:grid;
-  grid-template-columns:390px 1fr;
-  gap:18px;
+.stat b{
+  display:block;
+  font-size:28px;
+  color:var(--lime);
+  margin-bottom:4px;
 }
-.card{
-  background:rgba(255,255,255,.08);
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-  backdrop-filter:blur(14px);
-}
-.card h2{color:var(--turq);margin-bottom:14px}
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.form-grid input{margin-top:0}
-.full{grid-column:1/-1}
-.save-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
-}
-.clear-btn{
-  border:none;
-  border-radius:17px;
-  background:rgba(255,255,255,.9);
-  color:var(--navy);
-  font-weight:900;
-}
-.search{
-  margin-bottom:14px;
-}
-.phones{
+.stat span{color:var(--soft);font-weight:800}
+.phone-list{
   display:grid;
   gap:14px;
 }
-.phone{
-  display:grid;
-  grid-template-columns:170px 1fr;
-  gap:16px;
+.phone-card{
+  position:relative;
+  border-radius:28px;
   padding:16px;
-  border-radius:26px;
-  background:rgba(255,255,255,.075);
-  border:1px solid var(--line);
+  display:grid;
+  grid-template-columns:175px 1fr 42px;
+  gap:16px;
+  align-items:stretch;
+}
+.phone-card.sold{
+  background:rgba(17,185,87,.22);
+  border-color:rgba(17,185,87,.55);
 }
 .phone-img{
-  width:100%;
   height:190px;
   border-radius:22px;
-  overflow:hidden;
-  background:linear-gradient(135deg,rgba(6,191,191,.18),rgba(4,138,191,.14));
+  background:rgba(255,255,255,.10);
   display:grid;
   place-items:center;
+  overflow:hidden;
   color:var(--turq);
   font-size:42px;
 }
@@ -183,7 +145,11 @@ textarea{min-height:100px;resize:vertical}
   height:100%;
   object-fit:cover;
 }
-.phone h3{font-size:22px;margin-bottom:8px}
+.phone-info h2{
+  color:#fff;
+  font-size:24px;
+  margin-bottom:8px;
+}
 .tags{
   display:flex;
   flex-wrap:wrap;
@@ -191,63 +157,168 @@ textarea{min-height:100px;resize:vertical}
   margin:10px 0;
 }
 .tag{
-  padding:7px 10px;
+  padding:8px 11px;
   border-radius:999px;
-  background:rgba(6,191,191,.10);
-  border:1px solid rgba(6,191,191,.28);
+  background:rgba(6,191,191,.11);
+  border:1px solid rgba(6,191,191,.32);
   color:#eaffff;
   font-size:13px;
-  font-weight:800;
+  font-weight:900;
 }
-.price-grid{
+.price-row{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-top:10px;
 }
 .price-box{
-  padding:12px;
+  padding:13px;
   border-radius:18px;
-  background:rgba(0,0,0,.20);
+  background:rgba(0,0,0,.22);
   border:1px solid rgba(255,255,255,.10);
 }
-.price-box span{display:block;color:var(--soft);font-size:12px}
-.price-box b{font-size:19px;color:var(--lime)}
-.actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
+.price-box span{
+  display:block;
+  color:var(--soft);
+  font-size:12px;
+  font-weight:800;
 }
-.edit,.delete{
-  border:none;
+.price-box b{
+  color:var(--lime);
+  font-size:20px;
+}
+.menu-dot{
+  width:42px;height:42px;
   border-radius:15px;
-  padding:12px;
+  background:#fff;
+  color:var(--navy);
+  font-size:24px;
   font-weight:900;
 }
-.edit{background:white;color:var(--navy)}
-.delete{background:var(--red);color:white}
+.action-menu{
+  position:absolute;
+  right:16px;
+  top:62px;
+  width:150px;
+  display:none;
+  background:#fff;
+  color:var(--navy);
+  border-radius:18px;
+  padding:8px;
+  z-index:5;
+  box-shadow:0 18px 50px rgba(0,0,0,.35);
+}
+.action-menu.active{display:grid;gap:7px}
+.action-menu button{
+  width:100%;
+  padding:11px;
+  border-radius:13px;
+  font-weight:900;
+  text-align:left;
+}
+.edit{background:#eef8fb;color:var(--navy)}
+.sold-btn{background:#dfffe9;color:#087235}
+.delete{background:#ffe4e4;color:var(--red)}
 .empty{
-  padding:32px;
-  border-radius:24px;
-  border:1px dashed var(--line);
+  padding:35px;
   text-align:center;
+  border:1px dashed var(--line);
+  border-radius:24px;
   color:var(--soft);
 }
-@media(max-width:980px){
-  .layout{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(2,1fr)}
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(12px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
 }
-@media(max-width:620px){
+.modal.active{display:flex}
+.modal-box{
+  width:100%;
+  max-width:760px;
+  max-height:92vh;
+  overflow:auto;
+  border-radius:30px;
+  padding:24px;
+}
+.modal-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+.close{
+  width:42px;height:42px;
+  border-radius:15px;
+  background:var(--red);
+  color:white;
+  font-size:24px;
+  font-weight:900;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.form-grid label{
+  display:grid;
+  gap:7px;
+  color:var(--soft);
+  font-weight:900;
+  font-size:13px;
+}
+.full{grid-column:1/-1}
+.file-box{
+  padding:16px;
+  border-radius:18px;
+  background:rgba(255,255,255,.08);
+  border:1px dashed var(--line);
+}
+.preview{
+  width:100%;
+  height:210px;
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  margin-top:10px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  color:var(--soft);
+}
+.preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.save{
+  margin-top:14px;
+}
+footer{
+  padding:28px 16px 40px;
+  text-align:center;
+  color:#9fc5d6;
+  font-size:14px;
+}
+footer b{color:var(--turq)}
+@media(max-width:760px){
   .panel{padding:12px}
-  .top{flex-direction:column;align-items:flex-start}
-  .logout{width:100%}
-  .stats{grid-template-columns:1fr 1fr}
+  .top-buttons,.stats{grid-template-columns:1fr}
+  .phone-card{grid-template-columns:120px 1fr 38px;gap:11px;padding:12px}
+  .phone-img{height:145px;border-radius:18px}
+  .phone-info h2{font-size:19px}
+  .price-row{grid-template-columns:1fr}
   .form-grid{grid-template-columns:1fr}
-  .phone{grid-template-columns:1fr}
+}
+@media(max-width:470px){
+  .phone-card{grid-template-columns:1fr}
+  .menu-dot{position:absolute;right:14px;top:14px}
+  .action-menu{top:60px}
   .phone-img{height:240px}
-  .price-grid{grid-template-columns:1fr}
-  .save-row{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -256,76 +327,145 @@ textarea{min-height:100px;resize:vertical}
 
 <div class="login" id="loginScreen">
   <div class="login-box">
-
-    <h1>Panel</h1>
-    <p>Şen İletişim Giriş</p>
-
-    <input type="password" id="loginPassword" placeholder="Panel şifresi">
-    <button class="main-btn" onclick="login()">Panele Gir</button>
+    <div class="logo">Ş</div>
+    <h1>Panel Girişi</h1>
+    <p>Şen İletişim yönetim paneli</p>
+    <input type="password" id="loginPassword" placeholder="Şifre">
+    <button class="main-btn" style="margin-top:14px" onclick="login()">Giriş Yap</button>
     <span class="error" id="loginError"></span>
   </div>
 </div>
 
 <div class="panel" id="panelScreen">
-  <div class="top">
-    <div>
-      <h1>Ultra Telefon Yönetim Paneli</h1>
-      <small>Firebase bağlantılı cihaz ekleme, düzenleme ve silme sistemi</small>
-    </div>
-    <button class="logout" onclick="logout()">Çıkış</button>
+
+  <div class="welcome">
+    <h1>Hoşgeldiniz <span>Samet YERLİCE</span></h1>
+    <p>Telefon yönetim paneli</p>
+  </div>
+
+  <div class="top-buttons">
+    <button class="exit-btn" onclick="exitPanel()">Çıkış Yap</button>
+    <button class="add-btn" onclick="openModal()">Telefon Ekle</button>
   </div>
 
   <div class="stats">
-    <div class="stat"><b id="totalCount">0</b><span>Toplam Cihaz</span></div>
-    <div class="stat"><b id="newCount">0</b><span>Sıfır Cihaz</span></div>
-    <div class="stat"><b id="secondCount">0</b><span>2. El Cihaz</span></div>
-    <div class="stat"><b id="profitTotal">0 TL</b><span>Olası Kâr</span></div>
+    <div class="stat">
+      <b id="totalDevice">0</b>
+      <span>Toplam Cihaz</span>
+    </div>
+    <div class="stat">
+      <b id="turnover">0 TL</b>
+      <span>Ciro</span>
+    </div>
+    <div class="stat">
+      <b id="soldDevice">0</b>
+      <span>Satılan Cihaz</span>
+    </div>
   </div>
 
-  <div class="layout">
-    <div class="card">
-      <h2>Cihaz Ekle</h2>
+  <div class="phone-list" id="phoneList">
+    <div class="empty">Telefonlar yükleniyor...</div>
+  </div>
 
-      <input type="hidden" id="editId">
+</div>
 
-      <div class="form-grid">
-        <input id="brand" placeholder="Marka örn: Apple">
-        <input id="model" placeholder="Model örn: iPhone 13">
-        <input id="battery" placeholder="Pil örn: %89">
-        <input id="warranty" placeholder="Garanti örn: 6 Ay / Yok">
-        <input id="buyPrice" placeholder="Alış fiyatı örn: 18.000 TL">
-        <input id="sellPrice" placeholder="Olası satış fiyatı örn: 21.500 TL">
-        <input class="full" id="image" placeholder="Telefon görsel linki">
-        <textarea class="full" id="note" placeholder="Not / açıklama"></textarea>
+<div class="modal" id="phoneModal">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div>
+        <h1 id="modalTitle">Telefon Ekle</h1>
+        <p>Marka, model, fiyat ve görsel bilgilerini gir.</p>
       </div>
-
-      <div class="save-row">
-        <button class="main-btn" onclick="savePhone()">Kaydet</button>
-        <button class="clear-btn" onclick="clearForm()">Temizle</button>
-      </div>
+      <button class="close" onclick="closeModal()">×</button>
     </div>
 
-    <div class="card">
-      <h2>Telefon Listesi</h2>
-      <input class="search" id="searchInput" placeholder="Marka veya model ara..." oninput="renderPhones()">
-      <div class="phones" id="phones"></div>
+    <input type="hidden" id="editId">
+
+    <div class="form-grid">
+      <label>
+        Marka
+        <select id="brand" onchange="fillModels(); batteryControl();">
+          <option value="">Marka seç</option>
+          <option>Apple</option>
+          <option>Samsung</option>
+          <option>Xiaomi</option>
+          <option>Huawei</option>
+          <option>Oppo</option>
+          <option>Realme</option>
+          <option>Vivo</option>
+          <option>Honor</option>
+          <option>General Mobile</option>
+          <option>Tecno</option>
+          <option>Infinix</option>
+          <option>Reeder</option>
+          <option>Casper</option>
+          <option>Vestel</option>
+          <option>Nokia</option>
+          <option>Motorola</option>
+        </select>
+      </label>
+
+      <label>
+        Model
+        <select id="model">
+          <option value="">Önce marka seç</option>
+        </select>
+      </label>
+
+      <label>
+        Pil Ömrü
+        <input id="battery" placeholder="Sadece Apple için aktif" disabled>
+      </label>
+
+      <label>
+        Garanti
+        <select id="warranty">
+          <option value="">Garanti seç</option>
+          <option>Var</option>
+          <option>Yok</option>
+        </select>
+      </label>
+
+      <label>
+        Geliş Fiyatı
+        <input id="buyPrice" type="number" placeholder="₺">
+      </label>
+
+      <label>
+        Satış Fiyatı
+        <input id="sellPrice" type="number" placeholder="₺">
+      </label>
+
+      <label class="full">
+        Telefon Görseli
+        <div class="file-box">
+          <input type="file" id="imageFile" accept="image/*" onchange="previewImage(event)">
+          <div class="preview" id="previewBox">Görsel önizleme</div>
+        </div>
+      </label>
+
+      <label class="full">
+        Not
+        <textarea id="note" placeholder="Telefon hakkında not"></textarea>
+      </label>
     </div>
+
+    <button class="main-btn save" onclick="savePhone()">Kaydet</button>
   </div>
 </div>
+
+<footer>
+  <b>Kaan Ayaz Web Developer</b> tarafından hazırlanmıştır
+</footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  updateDoc,
-  query,
-  orderBy
+  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import {
+  getStorage, ref, uploadBytes, getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyATTPWhbZcRh9rK72U8x-5KwIz4LMIx9O0",
@@ -338,24 +478,39 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
+
 const PASSWORD = "5435641891";
-let cachedPhones = [];
+let phones = [];
+let currentImageUrl = "";
+
+const modelData = {
+  "Apple":["iPhone 16 Pro Max","iPhone 16 Pro","iPhone 16","iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15","iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14","iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13","iPhone 12 Pro Max","iPhone 12 Pro","iPhone 12","iPhone 11 Pro Max","iPhone 11 Pro","iPhone 11","iPhone X","iPhone 8 Plus"],
+  "Samsung":["Galaxy S24 Ultra","Galaxy S24","Galaxy S23 Ultra","Galaxy S23","Galaxy S22 Ultra","Galaxy A55","Galaxy A54","Galaxy A35","Galaxy A34","Galaxy A25","Galaxy A24","Galaxy A15","Galaxy Note 20 Ultra","Galaxy Z Fold","Galaxy Z Flip"],
+  "Xiaomi":["Redmi Note 13 Pro","Redmi Note 13","Redmi Note 12 Pro","Redmi Note 12","Redmi Note 11","Mi 11 Lite","Mi 10T","Poco X6 Pro","Poco X5 Pro","Poco F5"],
+  "Huawei":["P60 Pro","P50 Pro","P40 Lite","P30 Pro","Mate 40 Pro","Mate 20 Lite","Nova 11","Nova 10","Y9 Prime"],
+  "Oppo":["Reno 11","Reno 10","Reno 8","Reno 6","A96","A74","A54","A16"],
+  "Realme":["Realme 12 Pro","Realme 11 Pro","Realme 10","Realme 9 Pro","Realme C55","Realme C35"],
+  "Vivo":["Vivo V30","Vivo V29","Vivo Y36","Vivo Y35","Vivo Y22"],
+  "Honor":["Honor 90","Honor 70","Honor X9A","Honor X8","Honor Magic"],
+  "General Mobile":["GM 24 Pro","GM 23","GM 22","GM 21"],
+  "Tecno":["Camon 20","Spark 10","Spark 20","Pova 5"],
+  "Infinix":["Note 30","Hot 30","Hot 40","Zero 30"],
+  "Reeder":["S19 Max","S23 Pro Max","P13 Blue Max"],
+  "Casper":["Via X30","Via F30","Via E30"],
+  "Vestel":["Venus Z30","Venus V7","Venus E5"],
+  "Nokia":["Nokia G21","Nokia G20","Nokia C32"],
+  "Motorola":["Moto G84","Moto G54","Moto Edge 40"]
+};
 
 window.login = function(){
   const pass = document.getElementById("loginPassword").value;
-  const error = document.getElementById("loginError");
-
   if(pass === PASSWORD){
-    sessionStorage.setItem("sametPanelLogin","true");
+    sessionStorage.setItem("sametPanel","true");
     showPanel();
   }else{
-    error.innerText = "Şifre hatalı.";
+    document.getElementById("loginError").innerText = "Şifre hatalı.";
   }
-}
-
-window.logout = function(){
-  sessionStorage.removeItem("sametPanelLogin");
-  location.reload();
 }
 
 function showPanel(){
@@ -364,136 +519,207 @@ function showPanel(){
   loadPhones();
 }
 
+window.exitPanel = function(){
+  sessionStorage.removeItem("sametPanel");
+  window.location.href = "https://seniletisim.com.tr";
+}
+
+window.openModal = function(){
+  clearForm();
+  document.getElementById("modalTitle").innerText = "Telefon Ekle";
+  document.getElementById("phoneModal").classList.add("active");
+}
+
+window.closeModal = function(){
+  document.getElementById("phoneModal").classList.remove("active");
+}
+
+window.fillModels = function(){
+  const brand = document.getElementById("brand").value;
+  const model = document.getElementById("model");
+  model.innerHTML = `<option value="">Model seç</option>`;
+
+  if(modelData[brand]){
+    modelData[brand].forEach(m => {
+      model.innerHTML += `<option>${m}</option>`;
+    });
+  }
+}
+
+window.batteryControl = function(){
+  const brand = document.getElementById("brand").value;
+  const battery = document.getElementById("battery");
+
+  if(brand === "Apple"){
+    battery.disabled = false;
+    battery.placeholder = "Örn: %89";
+  }else{
+    battery.value = "";
+    battery.disabled = true;
+    battery.placeholder = "Apple dışında kapalı";
+  }
+}
+
+window.previewImage = function(event){
+  const file = event.target.files[0];
+  const box = document.getElementById("previewBox");
+
+  if(!file){
+    box.innerHTML = "Görsel önizleme";
+    return;
+  }
+
+  const url = URL.createObjectURL(file);
+  box.innerHTML = `<img src="${url}">`;
+}
+
 window.savePhone = async function(){
   const id = document.getElementById("editId").value;
+  const file = document.getElementById("imageFile").files[0];
+
+  let imageUrl = currentImageUrl;
+
+  if(file){
+    const storageRef = ref(storage, "phones/" + Date.now() + "-" + file.name);
+    await uploadBytes(storageRef, file);
+    imageUrl = await getDownloadURL(storageRef);
+  }
 
   const phone = {
-    brand: document.getElementById("brand").value.trim(),
-    model: document.getElementById("model").value.trim(),
-    battery: document.getElementById("battery").value.trim(),
-    warranty: document.getElementById("warranty").value.trim(),
-    buyPrice: document.getElementById("buyPrice").value.trim(),
-    sellPrice: document.getElementById("sellPrice").value.trim(),
-    image: document.getElementById("image").value.trim(),
-    note: document.getElementById("note").value.trim(),
+    brand: document.getElementById("brand").value,
+    model: document.getElementById("model").value,
+    battery: document.getElementById("battery").value,
+    warranty: document.getElementById("warranty").value,
+    buyPrice: Number(document.getElementById("buyPrice").value || 0),
+    sellPrice: Number(document.getElementById("sellPrice").value || 0),
+    image: imageUrl,
+    note: document.getElementById("note").value,
+    sold: false,
     createdAt: Date.now()
   };
 
   if(!phone.brand || !phone.model || !phone.buyPrice || !phone.sellPrice){
-    alert("Marka, model, alış fiyatı ve satış fiyatı boş kalmasın.");
+    alert("Marka, model, geliş fiyatı ve satış fiyatı boş kalmasın.");
     return;
   }
 
   if(id){
+    const oldPhone = phones.find(p => p.id === id);
+    phone.sold = oldPhone?.sold || false;
     await updateDoc(doc(db, "phones", id), phone);
   }else{
     await addDoc(collection(db, "phones"), phone);
   }
 
+  closeModal();
   clearForm();
-  loadPhones();
+  await loadPhones();
 }
 
 async function loadPhones(){
-  const phonesBox = document.getElementById("phones");
-  phonesBox.innerHTML = `<div class="empty">Telefonlar yükleniyor...</div>`;
+  const list = document.getElementById("phoneList");
+  list.innerHTML = `<div class="empty">Telefonlar yükleniyor...</div>`;
 
   const q = query(collection(db, "phones"), orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(q);
+  const snap = await getDocs(q);
 
-  cachedPhones = [];
-  snapshot.forEach(item => {
-    cachedPhones.push({ id:item.id, ...item.data() });
-  });
+  phones = [];
+  snap.forEach(item => phones.push({id:item.id, ...item.data()}));
 
   renderPhones();
 }
 
-window.renderPhones = function(){
-  const phonesBox = document.getElementById("phones");
-  const search = document.getElementById("searchInput").value.toLowerCase().trim();
+function renderPhones(){
+  const list = document.getElementById("phoneList");
 
-  let phones = cachedPhones.filter(p =>
-    `${p.brand || ""} ${p.model || ""}`.toLowerCase().includes(search)
-  );
+  document.getElementById("totalDevice").innerText = phones.length;
+  document.getElementById("soldDevice").innerText = phones.filter(p => p.sold).length;
 
-  updateStats();
+  const ciro = phones.filter(p => p.sold).reduce((t,p) => t + Number(p.sellPrice || 0), 0);
+  document.getElementById("turnover").innerText = formatTL(ciro);
 
   if(phones.length === 0){
-    phonesBox.innerHTML = `<div class="empty">Telefon bulunamadı.</div>`;
+    list.innerHTML = `<div class="empty">Henüz telefon eklenmedi.</div>`;
     return;
   }
 
-  phonesBox.innerHTML = phones.map(phone => `
-    <div class="phone">
+  list.innerHTML = phones.map(phone => `
+    <div class="phone-card ${phone.sold ? "sold" : ""}">
       <div class="phone-img">
-        ${phone.image ? `<img src="${safe(phone.image)}" alt="${safe(phone.brand)} ${safe(phone.model)}">` : "📱"}
+        ${phone.image ? `<img src="${safe(phone.image)}">` : "📱"}
       </div>
 
-      <div>
-        <h3>${safe(phone.brand)} ${safe(phone.model)}</h3>
+      <div class="phone-info">
+        <h2>${safe(phone.brand)} ${safe(phone.model)}</h2>
 
         <div class="tags">
-          <span class="tag">Pil: ${safe(phone.battery || "-")}</span>
+          <span class="tag">Pil: ${phone.brand === "Apple" ? safe(phone.battery || "-") : "Yok"}</span>
           <span class="tag">Garanti: ${safe(phone.warranty || "-")}</span>
+          <span class="tag">${phone.sold ? "Satıldı" : "Stokta"}</span>
         </div>
 
-        <p>${safe(phone.note || "Açıklama eklenmedi.")}</p>
+        <p>${safe(phone.note || "Not eklenmedi.")}</p>
 
-        <div class="price-grid">
+        <div class="price-row">
           <div class="price-box">
-            <span>Alış Fiyatı</span>
-            <b>${safe(phone.buyPrice)}</b>
+            <span>Geliş Fiyatı</span>
+            <b>${formatTL(phone.buyPrice)}</b>
           </div>
           <div class="price-box">
-            <span>Olası Satış</span>
-            <b>${safe(phone.sellPrice)}</b>
+            <span>Satış Fiyatı</span>
+            <b>${formatTL(phone.sellPrice)}</b>
           </div>
         </div>
+      </div>
 
-        <div class="actions">
-          <button class="edit" onclick="editPhone('${phone.id}')">Düzenle</button>
-          <button class="delete" onclick="deletePhone('${phone.id}')">Sil</button>
-        </div>
+      <button class="menu-dot" onclick="toggleAction('${phone.id}')">⋮</button>
+
+      <div class="action-menu" id="menu-${phone.id}">
+        <button class="edit" onclick="editPhone('${phone.id}')">Düzenle</button>
+        <button class="sold-btn" onclick="toggleSold('${phone.id}')">${phone.sold ? "Stokta Yap" : "Satıldı"}</button>
+        <button class="delete" onclick="deletePhone('${phone.id}')">Sil</button>
       </div>
     </div>
   `).join("");
 }
 
-function updateStats(){
-  document.getElementById("totalCount").innerText = cachedPhones.length;
-
-  const newCount = cachedPhones.filter(p =>
-    `${p.note} ${p.warranty}`.toLowerCase().includes("sıfır") ||
-    `${p.note} ${p.warranty}`.toLowerCase().includes("sifir")
-  ).length;
-
-  document.getElementById("newCount").innerText = newCount;
-  document.getElementById("secondCount").innerText = Math.max(cachedPhones.length - newCount, 0);
-
-  let profit = 0;
-  cachedPhones.forEach(p => {
-    profit += parsePrice(p.sellPrice) - parsePrice(p.buyPrice);
+window.toggleAction = function(id){
+  document.querySelectorAll(".action-menu").forEach(m => {
+    if(m.id !== "menu-" + id) m.classList.remove("active");
   });
-
-  document.getElementById("profitTotal").innerText = formatTL(profit);
+  document.getElementById("menu-" + id).classList.toggle("active");
 }
 
 window.editPhone = function(id){
-  const phone = cachedPhones.find(p => p.id === id);
+  const phone = phones.find(p => p.id === id);
   if(!phone) return;
 
+  document.getElementById("modalTitle").innerText = "Telefon Düzenle";
   document.getElementById("editId").value = phone.id;
-  document.getElementById("brand").value = phone.brand || "";
-  document.getElementById("model").value = phone.model || "";
+  document.getElementById("brand").value = phone.brand;
+  fillModels();
+  document.getElementById("model").value = phone.model;
+  batteryControl();
   document.getElementById("battery").value = phone.battery || "";
   document.getElementById("warranty").value = phone.warranty || "";
   document.getElementById("buyPrice").value = phone.buyPrice || "";
   document.getElementById("sellPrice").value = phone.sellPrice || "";
-  document.getElementById("image").value = phone.image || "";
   document.getElementById("note").value = phone.note || "";
+  currentImageUrl = phone.image || "";
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  document.getElementById("previewBox").innerHTML = phone.image ? `<img src="${safe(phone.image)}">` : "Görsel önizleme";
+  document.getElementById("phoneModal").classList.add("active");
+}
+
+window.toggleSold = async function(id){
+  const phone = phones.find(p => p.id === id);
+  if(!phone) return;
+
+  await updateDoc(doc(db, "phones", id), {
+    sold: !phone.sold
+  });
+
+  loadPhones();
 }
 
 window.deletePhone = async function(id){
@@ -503,25 +729,23 @@ window.deletePhone = async function(id){
   }
 }
 
-window.clearForm = function(){
+function clearForm(){
+  currentImageUrl = "";
   document.getElementById("editId").value = "";
   document.getElementById("brand").value = "";
-  document.getElementById("model").value = "";
+  document.getElementById("model").innerHTML = `<option value="">Önce marka seç</option>`;
   document.getElementById("battery").value = "";
+  document.getElementById("battery").disabled = true;
   document.getElementById("warranty").value = "";
   document.getElementById("buyPrice").value = "";
   document.getElementById("sellPrice").value = "";
-  document.getElementById("image").value = "";
+  document.getElementById("imageFile").value = "";
   document.getElementById("note").value = "";
-}
-
-function parsePrice(value){
-  if(!value) return 0;
-  return Number(String(value).replace(/[^\d]/g,"")) || 0;
+  document.getElementById("previewBox").innerHTML = "Görsel önizleme";
 }
 
 function formatTL(value){
-  return new Intl.NumberFormat("tr-TR").format(value) + " TL";
+  return "₺" + new Intl.NumberFormat("tr-TR").format(Number(value || 0));
 }
 
 function safe(value){
@@ -539,12 +763,7 @@ document.addEventListener("keydown", function(e){
   }
 });
 
-document.addEventListener("contextmenu", e => e.preventDefault());
-document.addEventListener("copy", e => e.preventDefault());
-document.addEventListener("cut", e => e.preventDefault());
-document.addEventListener("selectstart", e => e.preventDefault());
-
-if(sessionStorage.getItem("sametPanelLogin") === "true"){
+if(sessionStorage.getItem("sametPanel") === "true"){
   showPanel();
 }
 </script>
