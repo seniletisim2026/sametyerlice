@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Şen İletişim | Telefon • Aksesuar • Tamir</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --navy:#023059;
+      --blue:#048ABF;
+      --turq:#06BFBF;
+      --lime:#D2D904;
+      --red:#D92525;
+      --dark:#021423;
+      --dark2:#03223a;
+      --white:#ffffff;
+      --soft:#cde8f2;
+      --muted:#8fb8c9;
+      --line:rgba(255,255,255,.14);
+      --glass:rgba(255,255,255,.065);
+      --shadow:0 24px 80px rgba(0,0,0,.35);
+      --radius:28px;
+    }
+
+    html{
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 10% 5%, rgba(6,191,191,.28), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(4,138,191,.22), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(210,217,4,.08), transparent 34%),
+        linear-gradient(180deg,var(--navy),var(--dark) 72%);
+      color:var(--white);
+      line-height:1.6;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    img{
+      max-width:100%;
+      display:block;
+    }
+
+    button{
+      font:inherit;
+    }
+
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:999;
+      background:rgba(2,48,89,.90);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .top-line{
+      height:5px;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+    }
+
+    .top-line span:nth-child(1){background:var(--navy)}
+    .top-line span:nth-child(2){background:var(--blue)}
+    .top-line span:nth-child(3){background:var(--turq)}
+    .top-line span:nth-child(4){background:var(--lime)}
+    .top-line span:nth-child(5){background:var(--red)}
+
+    .nav{
+      width:100%;
+      max-width:1180px;
+      margin:auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .brand{
+      min-width:0;
+    }
+
+    .brand strong{
+      display:block;
+      font-size:clamp(19px,3vw,25px);
+      font-weight:900;
+      letter-spacing:.3px;
+      line-height:1.05;
+    }
+
+    .brand span{
+      display:block;
+      margin-top:5px;
+      color:var(--turq);
+      font-size:clamp(11px,2.3vw,13px);
+      font-weight:700;
+      line-height:1.25;
+    }
+
+    .tt-logo{
+      height:58px;
+      max-width:220px;
+      object-fit:contain;
+      flex-shrink:0;
+      background:#fff;
+      padding:8px 14px;
+      border-radius:16px;
+      box-shadow:0 12px 30px rgba(0,0,0,.22);
+    }
+
+    main{
+      padding-top:108px;
+    }
+
+    .container{
+      width:100%;
+      max-width:1180px;
+      margin:auto;
+      padding:24px 18px;
+    }
+
+    .price-button-wrap{
+      width:100%;
+      margin-bottom:22px;
+    }
+
+    .price-button{
+      width:100%;
+      border:0;
+      cursor:pointer;
+      padding:18px 20px;
+      border-radius:22px;
+      background:linear-gradient(135deg,#D92525,#a90f0f);
+      color:#fff;
+      font-size:17px;
+      font-weight:900;
+      box-shadow:0 16px 40px rgba(217,37,37,.34);
+      transition:.25s ease;
+    }
+
+    .price-button:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 48px rgba(217,37,37,.42);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:34px;
+      padding:34px;
+      background:
+        linear-gradient(135deg,rgba(6,191,191,.24),rgba(4,138,191,.14)),
+        linear-gradient(145deg,#043b68,#021d35);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:30px;
+      align-items:center;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      width:280px;
+      height:280px;
+      left:-120px;
+      top:-120px;
+      border-radius:50%;
+      background:rgba(6,191,191,.25);
+      filter:blur(45px);
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:300px;
+      height:300px;
+      right:-150px;
+      bottom:-150px;
+      border-radius:50%;
+      background:rgba(4,138,191,.20);
+      filter:blur(48px);
+    }
+
+    .hero > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .hero h1{
+      font-size:clamp(32px,5vw,58px);
+      line-height:1.05;
+      letter-spacing:-1.4px;
+      margin-bottom:18px;
+    }
+
+    .hero h1 span{
+      color:var(--turq);
+    }
+
+    .hero p{
+      color:var(--soft);
+      font-size:clamp(15px,2vw,17px);
+      max-width:680px;
+      margin-bottom:18px;
+    }
+
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .badge{
+      padding:9px 13px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:800;
+      color:#eaffff;
+      background:rgba(6,191,191,.08);
+      border:1px solid rgba(6,191,191,.38);
+    }
+
+    .badge:nth-child(2){
+      border-color:rgba(4,138,191,.58);
+    }
+
+    .badge:nth-child(3){
+      color:#fbffd0;
+      border-color:rgba(210,217,4,.58);
+    }
+
+    .badge:nth-child(4){
+      color:#ffe0e0;
+      border-color:rgba(217,37,37,.58);
+    }
+
+    .hero-visual{
+      width:100%;
+    }
+
+    .hero-visual img{
+      width:100%;
+      height:420px;
+      object-fit:cover;
+      object-position:center;
+      border-radius:28px;
+      border:1px solid var(--line);
+      box-shadow:0 18px 55px rgba(0,0,0,.30);
+    }
+
+    .call-btn{
+      width:calc(100% - 32px);
+      margin:16px auto 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:15px 18px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--turq),var(--blue));
+      color:#021423;
+      font-weight:900;
+      box-shadow:0 12px 28px rgba(6,191,191,.26);
+      text-align:center;
+      transition:.25s ease;
+    }
+
+    .call-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 18px 38px rgba(6,191,191,.34);
+    }
+
+    section{
+      margin-top:22px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+    }
+
+    .card{
+      background:linear-gradient(180deg,var(--glass),rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:0 18px 50px rgba(0,0,0,.24);
+      backdrop-filter:blur(12px);
+    }
+
+    .card h2{
+      color:var(--turq);
+      font-size:clamp(22px,3vw,25px);
+      line-height:1.2;
+      margin-bottom:14px;
+    }
+
+    .card p{
+      color:var(--soft);
+      font-size:15.5px;
+      margin-bottom:12px;
+    }
+
+    .shop-img{
+      width:100%;
+      height:270px;
+      object-fit:cover;
+      object-position:center;
+      margin-top:16px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      box-shadow:0 18px 50px rgba(0,0,0,.28);
+    }
+
+    .service{
+      min-height:150px;
+      padding:18px;
+      border-radius:22px;
+      background:rgba(6,191,191,.06);
+      border:1px solid rgba(6,191,191,.24);
+    }
+
+    .service:nth-child(2){
+      background:rgba(4,138,191,.08);
+      border-color:rgba(4,138,191,.30);
+    }
+
+    .service:nth-child(3){
+      background:rgba(210,217,4,.06);
+      border-color:rgba(210,217,4,.32);
+    }
+
+    .service strong{
+      display:block;
+      color:#fff;
+      font-size:17px;
+      margin-bottom:8px;
+    }
+
+    .service p{
+      color:var(--soft);
+      font-size:14px;
+      margin:0;
+    }
+
+    .hours{
+      display:grid;
+      gap:9px;
+    }
+
+    .hour{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--soft);
+      padding-bottom:8px;
+      border-bottom:1px dashed rgba(255,255,255,.14);
+    }
+
+    .hour b{
+      color:#fff;
+      white-space:nowrap;
+    }
+
+    .info p{
+      border-bottom:1px dashed rgba(255,255,255,.12);
+      padding-bottom:10px;
+      word-break:break-word;
+    }
+
+    .info a{
+      color:var(--turq);
+      font-weight:900;
+    }
+
+    iframe{
+      width:100%;
+      height:350px;
+      border:0;
+      border-radius:22px;
+      margin-top:12px;
+    }
+
+    footer{
+      text-align:center;
+      padding:28px 16px 38px;
+      color:#9fc5d6;
+      font-size:14px;
+    }
+
+    footer b{
+      color:var(--turq);
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:none;
+      padding:16px;
+      background:rgba(0,0,0,.88);
+    }
+
+    .modal.active{
+      display:flex;
+    }
+
+    .modal-box{
+      width:100%;
+      max-width:1280px;
+      height:100%;
+      margin:auto;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      border-radius:26px;
+      background:#021423;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 30px 90px rgba(0,0,0,.60);
+    }
+
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:16px 18px;
+      background:linear-gradient(135deg,#023059,#043b68);
+      border-bottom:1px solid rgba(255,255,255,.14);
+    }
+
+    .modal-head h2{
+      color:#fff;
+      font-size:clamp(18px,3vw,25px);
+      line-height:1.2;
+    }
+
+    .close-btn{
+      width:42px;
+      height:42px;
+      border:0;
+      border-radius:14px;
+      cursor:pointer;
+      background:#D92525;
+      color:white;
+      font-size:24px;
+      font-weight:900;
+      flex-shrink:0;
+    }
+
+    .modal-body{
+      flex:1;
+      overflow:auto;
+      padding:18px;
+    }
+
+    .loading{
+      color:var(--soft);
+      text-align:center;
+      padding:34px 12px;
+      font-weight:800;
+    }
+
+    .phone-list{
+      display:grid;
+      gap:16px;
+    }
+
+    .phone-row{
+      display:grid;
+      grid-template-columns:160px minmax(0,1fr) 170px;
+      gap:18px;
+      align-items:center;
+      padding:16px;
+      border-radius:24px;
+      background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 16px 45px rgba(0,0,0,.28);
+    }
+
+    .phone-img{
+      width:160px;
+      height:150px;
+      object-fit:cover;
+      object-position:center;
+      border-radius:18px;
+      background:#053052;
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .phone-main{
+      min-width:0;
+    }
+
+    .phone-title{
+      color:#fff;
+      font-size:24px;
+      line-height:1.15;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .phone-title span{
+      color:var(--turq);
+    }
+
+    .phone-info{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .phone-info span{
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(6,191,191,.08);
+      border:1px solid rgba(6,191,191,.22);
+      color:var(--soft);
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .phone-note{
+      margin-top:10px;
+      color:#eaffff;
+      font-size:14px;
+      opacity:.92;
+    }
+
+    .phone-price-box{
+      width:100%;
+      max-width:170px;
+      justify-self:end;
+      padding:16px;
+      border-radius:20px;
+      text-align:center;
+      background:rgba(217,37,37,.18);
+      border:1px solid rgba(217,37,37,.48);
+    }
+
+    .phone-price-label{
+      color:#ffdede;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:5px;
+    }
+
+    .phone-price{
+      color:white;
+      font-size:24px;
+      line-height:1.1;
+      font-weight:900;
+    }
+
+    @media(max-width:900px){
+      main{
+        padding-top:98px;
+      }
+
+      .container{
+        padding:18px 14px;
+      }
+
+      .hero,
+      .grid,
+      .grid-3{
+        grid-template-columns:1fr;
+      }
+
+      .hero{
+        padding:22px 16px;
+        border-radius:26px;
+        gap:22px;
+      }
+
+      .hero-visual img{
+        height:300px;
+      }
+
+      .tt-logo{
+        height:44px;
+        max-width:150px;
+        padding:7px 10px;
+        border-radius:13px;
+      }
+
+      .card{
+        padding:20px;
+        border-radius:24px;
+      }
+
+      .shop-img{
+        height:240px;
+      }
+
+      .call-btn{
+        width:calc(100% - 18px);
+      }
+
+      .phone-row{
+        grid-template-columns:135px minmax(0,1fr);
+      }
+
+      .phone-img{
+        width:135px;
+        height:135px;
+      }
+
+      .phone-price-box{
+        grid-column:1 / -1;
+        max-width:100%;
+        justify-self:stretch;
+      }
+    }
+
+    @media(max-width:520px){
+      main{
+        padding-top:92px;
+      }
+
+      .nav{
+        padding:12px;
+        gap:10px;
+      }
+
+      .brand strong{
+        font-size:18px;
+      }
+
+      .brand span{
+        font-size:10.5px;
+      }
+
+      .tt-logo{
+        height:38px;
+        max-width:120px;
+      }
+
+      .hero h1{
+        font-size:29px;
+      }
+
+      .hero p,
+      .card p{
+        font-size:14.5px;
+      }
+
+      .badge{
+        width:100%;
+        text-align:center;
+      }
+
+      .hero-visual img{
+        height:240px;
+        border-radius:22px;
+      }
+
+      .hour{
+        flex-direction:column;
+        gap:2px;
+        align-items:flex-start;
+      }
+
+      iframe{
+        height:280px;
+      }
+
+      .modal{
+        padding:8px;
+      }
+
+      .modal-box{
+        border-radius:18px;
+      }
+
+      .modal-body{
+        padding:12px;
+      }
+
+      .phone-row{
+        grid-template-columns:1fr;
+        padding:14px;
+      }
+
+      .phone-img{
+        width:100%;
+        height:230px;
+      }
+
+      .phone-title{
+        font-size:21px;
+      }
+
+      .phone-price{
+        font-size:23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="top-line">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="nav">
+    <div class="brand">
+      <strong>Şen İletişim</strong>
+      <span>Telefon • Aksesuar • Tamir</span>
+    </div>
+
+    <img
+      class="tt-logo"
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/T%C3%BCrk_Telekom_logo.svg/1280px-T%C3%BCrk_Telekom_logo.svg.png"
+      alt="Türk Telekom Logo"
+    >
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="price-button-wrap">
+      <button class="price-button" onclick="openPriceModal()">
+        📱 Güncel Telefon Fiyat Listesi
+      </button>
+    </div>
+
+    <section class="hero">
+      <div>
+        <h1>Şen İletişim ile <span>güvenilir teknoloji hizmeti</span></h1>
+
+        <p>
+          Samet Yerlice yönetimindeki Şen İletişim; telefon, aksesuar, fatura ödeme
+          ve iletişim ihtiyaçları için Eskişehir’de müşterilerine güvenilir,
+          hızlı ve çözüm odaklı hizmet sunar.
+        </p>
+
+        <div class="badges">
+          <div class="badge">Telefon Aksesuarları</div>
+          <div class="badge">Fatura Ödeme</div>
+          <div class="badge">Türk Telekom Hizmetleri</div>
+          <div class="badge">Müşteri Odaklı Hizmet</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <img
+          src="https://medya.turktelekom.com.tr/media/htcptvij/turk-telekom-5g.jpg?rmode=max&width=500&height=430"
+          alt="Türk Telekom 5G"
+        >
+        <a class="call-btn" href="tel:+905435641891">Beni Ara</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Samet Yerlice Hakkında</h2>
+
+        <p>
+          Samet Yerlice, Şen İletişim markasıyla müşterilerine telefon ve iletişim
+          ihtiyaçlarında yardımcı olur. Günlük ihtiyaçlara uygun aksesuarlar,
+          ödeme işlemleri ve iletişim çözümleri sunar.
+        </p>
+
+        <p>
+          Şen İletişim’de amaç; müşterinin aradığı ürüne kolayca ulaşması,
+          doğru bilgi alması ve hızlı şekilde işlem yapabilmesidir.
+        </p>
+
+        <img
+          class="shop-img"
+          src="https://lh3.googleusercontent.com/GMAxqnad5bme_RSPIbgl7507uzfG6zCW2L9jizQ84NNRWTw2YybDCHaA58soBhY_4V1vq5IXlazrkJwA=w1905"
+          alt="Şen İletişim Dükkan Fotoğrafı"
+        >
+      </div>
+
+      <div class="card">
+        <h2>Müşteriler İçin Bilgiler</h2>
+
+        <p>
+          Mağazaya gelen müşteriler telefon aksesuarları, şarj cihazları,
+          kulaklık, kılıf, ekran koruyucu ve benzeri ürünler hakkında bilgi alabilir.
+        </p>
+
+        <p>
+          Fatura ödeme işlemleri yapılır. Ürün bilgisi, fiyat öğrenme ve stok
+          durumları için telefonla iletişime geçilebilir.
+        </p>
+
+        <p>
+          Şen İletişim; hızlı cevap, doğru ürün önerisi ve güvenilir hizmet anlayışıyla çalışır.
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Dükkan Hakkında</h2>
+
+      <p>
+        Şen İletişim; telefon aksesuarları, temel iletişim ürünleri ve fatura ödeme
+        hizmetleriyle müşterilerine kolaylık sağlayan bir işletmedir.
+      </p>
+
+      <div class="grid-3">
+        <div class="service">
+          <strong>Telefon Aksesuarları</strong>
+          <p>Kılıf, ekran koruyucu, şarj aleti, kablo ve günlük kullanım ürünleri.</p>
+        </div>
+
+        <div class="service">
+          <strong>Fatura Ödeme</strong>
+          <p>Müşteriler için pratik ödeme işlemleri ve hızlı destek hizmeti.</p>
+        </div>
+
+        <div class="service">
+          <strong>Müşteri Desteği</strong>
+          <p>Ürün bilgisi, fiyat öğrenme ve uygun aksesuar seçimi konusunda destek.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Çalışma Saatleri</h2>
+
+        <div class="hours">
+          <div class="hour"><span>Pazartesi</span><b>09:00 – 22:00</b></div>
+          <div class="hour"><span>Salı</span><b>09:00 – 22:00</b></div>
+          <div class="hour"><span>Çarşamba</span><b>09:00 – 22:00</b></div>
+          <div class="hour"><span>Perşembe</span><b>09:00 – 22:00</b></div>
+          <div class="hour"><span>Cuma</span><b>09:00 – 22:00</b></div>
+          <div class="hour"><span>Cumartesi</span><b>09:00 – 22:00</b></div>
+          <div class="hour"><span>Pazar</span><b>Kapalı</b></div>
+        </div>
+      </div>
+
+      <div class="card info">
+        <h2>İletişim Bilgileri</h2>
+
+        <p><b>Telefon:</b> <a href="tel:+905435641891">0543 564 18 91</a></p>
+        <p><b>Mail:</b> <a href="mailto:seniletisim.2026@gmail.com">seniletisim.2026@gmail.com</a></p>
+        <p><b>İl:</b> Eskişehir</p>
+        <p><b>Adres:</b> 71 Evler, Kafkas Cd. 57 / B, 26080</p>
+        <p><b>Konum:</b> <a href="https://share.google/YgQ0enNoZ9Q1r420t" target="_blank">Google Haritalar’da Aç</a></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Harita Konumu</h2>
+
+      <p>Şen İletişim konumuna aşağıdaki harita veya bağlantı üzerinden ulaşabilirsiniz.</p>
+
+      <iframe
+        src="https://www.google.com/maps?q=71%20Evler%2C%20Kafkas%20Cd.%2057%20%2F%20B%2C%2026080%20Odunpazar%C4%B1%2FEski%C5%9Fehir&output=embed"
+        loading="lazy">
+      </iframe>
+
+      <a class="call-btn" href="https://share.google/YgQ0enNoZ9Q1r420t" target="_blank">Google Haritalar’da Aç</a>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  Web sayfası <b>Kaan Ayaz Web Developer Grubu</b> tarafından hazırlanmıştır.
+</footer>
+
+<div class="modal" id="priceModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>📱 Güncel Telefon Fiyat Listesi</h2>
+      <button class="close-btn" onclick="closePriceModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div id="phoneList" class="loading">Telefon listesi yükleniyor...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const sheetJsonUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQ7WzIQK8LE9gkhobSgX-UzasV3LajESYfHCR-0ge24BY6SbQIGhWGgw8T8t491EDraO3h1fvNbi2o/gviz/tq?gid=0&tqx=responseHandler:handleSheetData";
+
+  let loadedPhones = false;
+
+  function openPriceModal(){
+    document.getElementById("priceModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+
+    if(!loadedPhones){
+      loadPhones();
+    }
+  }
+
+  function closePriceModal(){
+    document.getElementById("priceModal").classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){
+      closePriceModal();
+    }
+  });
+
+  function loadPhones(){
+    const list = document.getElementById("phoneList");
+    list.className = "loading";
+    list.innerHTML = "Telefon listesi yükleniyor...";
+
+    const oldScript = document.getElementById("sheetLoader");
+    if(oldScript){
+      oldScript.remove();
+    }
+
+    const script = document.createElement("script");
+    script.id = "sheetLoader";
+    script.src = sheetJsonUrl + "&cache=" + Date.now();
+
+    script.onerror = function(){
+      list.className = "loading";
+      list.innerHTML = "Telefon listesi yüklenemedi. Google Sheets dosyasını web’de yayınladığından emin ol.";
+    };
+
+    document.body.appendChild(script);
+  }
+
+  function handleSheetData(data){
+    const list = document.getElementById("phoneList");
+
+    try{
+      const rows = data.table.rows || [];
+
+      const phones = rows.map(function(row){
+        const c = row.c || [];
+
+        return {
+          marka: getCell(c[0]),
+          model: getCell(c[1]),
+          depolama: getCell(c[2]),
+          renk: getCell(c[3]),
+          durum: getCell(c[4]),
+          pil: getCell(c[5]),
+          fiyat: getCell(c[6]),
+          not: getCell(c[7]),
+          gorsel: getCell(c[8])
+        };
+      }).filter(function(phone){
+        return phone.marka || phone.model || phone.fiyat;
+      });
+
+      if(!phones.length){
+        list.className = "loading";
+        list.innerHTML = "Listede ürün bulunamadı.";
+        return;
+      }
+
+      list.className = "phone-list";
+
+      list.innerHTML = phones.map(function(phone){
+        const img = phone.gorsel || "https://via.placeholder.com/700x500/023059/ffffff?text=Telefon";
+
+        return `
+          <div class="phone-row">
+            <img
+              class="phone-img"
+              src="${escapeHtml(img)}"
+              alt="${escapeHtml(phone.marka + " " + phone.model)}"
+              onerror="this.src='https://via.placeholder.com/700x500/023059/ffffff?text=Telefon'"
+            >
+
+            <div class="phone-main">
+              <div class="phone-title">
+                <span>${escapeHtml(phone.marka)}</span> ${escapeHtml(phone.model)}
+              </div>
+
+              <div class="phone-info">
+                ${phone.depolama ? `<span>Depolama: ${escapeHtml(phone.depolama)}</span>` : ""}
+                ${phone.renk ? `<span>Renk: ${escapeHtml(phone.renk)}</span>` : ""}
+                ${phone.durum ? `<span>Durum: ${escapeHtml(phone.durum)}</span>` : ""}
+                ${phone.pil ? `<span>Pil: ${formatBattery(phone.pil)}</span>` : ""}
+              </div>
+
+              ${phone.not ? `<div class="phone-note">${escapeHtml(phone.not)}</div>` : ""}
+            </div>
+
+            <div class="phone-price-box">
+              <div class="phone-price-label">Fiyat</div>
+              <div class="phone-price">${formatPrice(phone.fiyat)}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      loadedPhones = true;
+
+    }catch(error){
+      list.className = "loading";
+      list.innerHTML = "Telefon listesi okunamadı.";
+    }
+  }
+
+  function getCell(cell){
+    if(!cell) return "";
+    return cell.f || cell.v || "";
+  }
+
+  function formatPrice(value){
+    let price = String(value || "").trim();
+
+    if(!price){
+      return "Fiyat Sor";
+    }
+
+    price = price.replace("TRY","TL").replace("try","TL");
+
+    if(price.toLowerCase().includes("tl")){
+      return escapeHtml(price);
+    }
+
+    return escapeHtml(price + " TL");
+  }
+
+  function formatBattery(value){
+    const battery = String(value || "").trim();
+
+    if(!battery){
+      return "";
+    }
+
+    if(battery.includes("%")){
+      return escapeHtml(battery);
+    }
+
+    return escapeHtml(battery + "%");
+  }
+
+  function escapeHtml(value){
+    return String(value)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+</script>
+
+</body>
+</html>
