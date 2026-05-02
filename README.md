@@ -1,0 +1,2 @@
+# sametyerlice
+Telefon • Aksesuar • Tamir
