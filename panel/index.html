@@ -9,7 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;-webkit-tap-highlight-color:transparent}
 :root{
   --navy:#023059;--blue:#048ABF;--turq:#06BFBF;--lime:#D2D904;--red:#D92525;
-  --dark:#021423;--white:#fff;--soft:#cde8f2;--line:rgba(255,255,255,.14);
+  --dark:#021423;--soft:#cde8f2;--line:rgba(255,255,255,.14);
   --glass:rgba(255,255,255,.08);--shadow:0 26px 90px rgba(0,0,0,.38)
 }
 body{
@@ -273,12 +273,6 @@ textarea{min-height:95px;resize:vertical}
   font-size:13px;
 }
 .full{grid-column:1/-1}
-.file-box{
-  padding:16px;
-  border-radius:18px;
-  background:rgba(255,255,255,.08);
-  border:1px dashed var(--line);
-}
 .preview{
   width:100%;
   height:210px;
@@ -289,6 +283,7 @@ textarea{min-height:95px;resize:vertical}
   place-items:center;
   overflow:hidden;
   color:var(--soft);
+  border:1px dashed var(--line);
 }
 .preview img{
   width:100%;
@@ -327,7 +322,6 @@ footer b{color:var(--turq)}
 
 <div class="login" id="loginScreen">
   <div class="login-box">
-    <div class="logo">Ş</div>
     <h1>Panel Girişi</h1>
     <p>Şen İletişim yönetim paneli</p>
     <input type="password" id="loginPassword" placeholder="Şifre">
@@ -374,7 +368,7 @@ footer b{color:var(--turq)}
     <div class="modal-top">
       <div>
         <h1 id="modalTitle">Telefon Ekle</h1>
-        <p>Marka, model, fiyat ve görsel bilgilerini gir.</p>
+        <p>Marka, model, fiyat ve görsel linkini gir.</p>
       </div>
       <button class="close" onclick="closeModal()">×</button>
     </div>
@@ -437,11 +431,9 @@ footer b{color:var(--turq)}
       </label>
 
       <label class="full">
-        Telefon Görseli
-        <div class="file-box">
-          <input type="file" id="imageFile" accept="image/*" onchange="previewImage(event)">
-          <div class="preview" id="previewBox">Görsel önizleme</div>
-        </div>
+        Telefon Görsel Linki
+        <input id="imageUrl" placeholder="https://...">
+        <div class="preview" id="previewBox">Görsel önizleme</div>
       </label>
 
       <label class="full">
@@ -461,11 +453,16 @@ footer b{color:var(--turq)}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  query,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-import {
-  getStorage, ref, uploadBytes, getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyATTPWhbZcRh9rK72U8x-5KwIz4LMIx9O0",
@@ -478,11 +475,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
 const PASSWORD = "5435641891";
 let phones = [];
-let currentImageUrl = "";
 
 const modelData = {
   "Apple":["iPhone 16 Pro Max","iPhone 16 Pro","iPhone 16","iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15","iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14","iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13","iPhone 12 Pro Max","iPhone 12 Pro","iPhone 12","iPhone 11 Pro Max","iPhone 11 Pro","iPhone 11","iPhone X","iPhone 8 Plus"],
@@ -505,6 +500,7 @@ const modelData = {
 
 window.login = function(){
   const pass = document.getElementById("loginPassword").value;
+
   if(pass === PASSWORD){
     sessionStorage.setItem("sametPanel","true");
     showPanel();
@@ -560,30 +556,19 @@ window.batteryControl = function(){
   }
 }
 
-window.previewImage = function(event){
-  const file = event.target.files[0];
+document.getElementById("imageUrl").addEventListener("input", function(){
+  const url = this.value.trim();
   const box = document.getElementById("previewBox");
 
-  if(!file){
+  if(url){
+    box.innerHTML = `<img src="${safe(url)}" onerror="this.parentElement.innerHTML='Görsel yüklenemedi'">`;
+  }else{
     box.innerHTML = "Görsel önizleme";
-    return;
   }
-
-  const url = URL.createObjectURL(file);
-  box.innerHTML = `<img src="${url}">`;
-}
+});
 
 window.savePhone = async function(){
   const id = document.getElementById("editId").value;
-  const file = document.getElementById("imageFile").files[0];
-
-  let imageUrl = currentImageUrl;
-
-  if(file){
-    const storageRef = ref(storage, "phones/" + Date.now() + "-" + file.name);
-    await uploadBytes(storageRef, file);
-    imageUrl = await getDownloadURL(storageRef);
-  }
 
   const phone = {
     brand: document.getElementById("brand").value,
@@ -592,7 +577,7 @@ window.savePhone = async function(){
     warranty: document.getElementById("warranty").value,
     buyPrice: Number(document.getElementById("buyPrice").value || 0),
     sellPrice: Number(document.getElementById("sellPrice").value || 0),
-    image: imageUrl,
+    image: document.getElementById("imageUrl").value.trim(),
     note: document.getElementById("note").value,
     sold: false,
     createdAt: Date.now()
@@ -606,6 +591,7 @@ window.savePhone = async function(){
   if(id){
     const oldPhone = phones.find(p => p.id === id);
     phone.sold = oldPhone?.sold || false;
+    phone.createdAt = oldPhone?.createdAt || Date.now();
     await updateDoc(doc(db, "phones", id), phone);
   }else{
     await addDoc(collection(db, "phones"), phone);
@@ -620,13 +606,18 @@ async function loadPhones(){
   const list = document.getElementById("phoneList");
   list.innerHTML = `<div class="empty">Telefonlar yükleniyor...</div>`;
 
-  const q = query(collection(db, "phones"), orderBy("createdAt", "desc"));
-  const snap = await getDocs(q);
+  try{
+    const q = query(collection(db, "phones"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
 
-  phones = [];
-  snap.forEach(item => phones.push({id:item.id, ...item.data()}));
+    phones = [];
+    snap.forEach(item => phones.push({id:item.id, ...item.data()}));
 
-  renderPhones();
+    renderPhones();
+  }catch(err){
+    list.innerHTML = `<div class="empty">Firebase bağlantı hatası. Firestore Rules kontrol et.</div>`;
+    console.error(err);
+  }
 }
 
 function renderPhones(){
@@ -704,10 +695,10 @@ window.editPhone = function(id){
   document.getElementById("warranty").value = phone.warranty || "";
   document.getElementById("buyPrice").value = phone.buyPrice || "";
   document.getElementById("sellPrice").value = phone.sellPrice || "";
+  document.getElementById("imageUrl").value = phone.image || "";
   document.getElementById("note").value = phone.note || "";
-  currentImageUrl = phone.image || "";
-
   document.getElementById("previewBox").innerHTML = phone.image ? `<img src="${safe(phone.image)}">` : "Görsel önizleme";
+
   document.getElementById("phoneModal").classList.add("active");
 }
 
@@ -729,8 +720,7 @@ window.deletePhone = async function(id){
   }
 }
 
-function clearForm(){
-  currentImageUrl = "";
+window.clearForm = function(){
   document.getElementById("editId").value = "";
   document.getElementById("brand").value = "";
   document.getElementById("model").innerHTML = `<option value="">Önce marka seç</option>`;
@@ -739,7 +729,7 @@ function clearForm(){
   document.getElementById("warranty").value = "";
   document.getElementById("buyPrice").value = "";
   document.getElementById("sellPrice").value = "";
-  document.getElementById("imageFile").value = "";
+  document.getElementById("imageUrl").value = "";
   document.getElementById("note").value = "";
   document.getElementById("previewBox").innerHTML = "Görsel önizleme";
 }
