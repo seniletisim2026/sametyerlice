@@ -23,6 +23,12 @@ body{
 button,input,select,textarea{font:inherit}
 button{cursor:pointer;border:none}
 
+*{
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+  
 .login{
   min-height:100vh;
   display:flex;
@@ -438,6 +444,19 @@ footer b{color:var(--turq)}
 </style>
 </head>
 
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("copy", e => e.preventDefault());
+document.addEventListener("cut", e => e.preventDefault());
+document.addEventListener("selectstart", e => e.preventDefault());
+
+document.addEventListener("keydown", function(e){
+  if(e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "u")){
+    e.preventDefault();
+  }
+});
+</script>
+  
 <body>
 
 <div class="login" id="loginScreen">
