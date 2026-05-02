@@ -486,15 +486,6 @@
 
   </div>
 </main>
-
-    <h2>Panel Girişi</h2>
-    <p>Şen İletişim yönetim paneli</p>
-
-    <input type="password" id="panelPassword" placeholder="Şifreyi girin">
-
-    <button onclick="checkPanelPassword()">Giriş Yap</button>
-
-    <span id="panelError"></span>
   </div>
 </div>
 
@@ -519,13 +510,6 @@ function toggleMenu(){
 function openPanel(){
   window.location.href = "https://seniletisim.com.tr/panel/";
 }
-
-function closePanel(){
-  document.getElementById("panelLogin").classList.remove("active");
-  document.getElementById("panelError").innerText = "";
-  document.getElementById("panelPassword").value = "";
-}
-
 document.addEventListener("contextmenu", e => e.preventDefault());
 document.addEventListener("copy", e => e.preventDefault());
 document.addEventListener("cut", e => e.preventDefault());
