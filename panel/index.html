@@ -6,7 +6,7 @@
 <title>Şen İletişim | Samet Panel</title>
 
 <link rel="icon" href="favicon.png" type="image/png">
-  
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;-webkit-tap-highlight-color:transparent}
 :root{
@@ -34,7 +34,7 @@ button{cursor:pointer;border:none}
 input, textarea{
   user-select: text !important;
 }
-  
+
 .login{
   min-height:100vh;
   display:flex;
@@ -42,7 +42,7 @@ input, textarea{
   justify-content:center;
   padding:18px;
 }
-.login-box,.welcome,.stat,.phone-card,.modal-box{
+.login-box,.welcome,.stat,.phone-card,.modal-box,.search-box,.custom-alert{
   background:var(--glass);
   border:1px solid var(--line);
   box-shadow:var(--shadow);
@@ -54,13 +54,6 @@ input, textarea{
   border-radius:30px;
   padding:30px;
   text-align:center;
-}
-.logo{
-  width:74px;height:74px;margin:0 auto 18px;
-  border-radius:24px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--turq),var(--blue),var(--lime));
-  color:#021423;font-size:34px;font-weight:900;
 }
 h1{color:var(--turq);font-size:30px;margin-bottom:6px}
 p{color:var(--soft);line-height:1.5}
@@ -117,9 +110,19 @@ textarea{min-height:95px;resize:vertical}
 .exit-btn{background:#fff;color:var(--navy)}
 .add-btn{background:linear-gradient(135deg,var(--turq),var(--blue));color:#021423}
 
+.search-box{
+  border-radius:24px;
+  padding:15px;
+  margin-bottom:16px;
+}
+.search-box input{
+  background:rgba(255,255,255,.96);
+  font-weight:900;
+}
+
 .stats{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:14px;
   margin-bottom:18px;
 }
@@ -144,7 +147,7 @@ textarea{min-height:95px;resize:vertical}
   border-radius:28px;
   padding:18px;
   display:grid;
-  grid-template-columns:1fr 42px;
+  grid-template-columns:1fr auto;
   gap:16px;
 }
 .phone-card.sold{
@@ -171,6 +174,19 @@ textarea{min-height:95px;resize:vertical}
   font-size:13px;
   font-weight:900;
 }
+.device-code{
+  height:42px;
+  min-width:74px;
+  padding:0 14px;
+  border-radius:15px;
+  background:var(--lime);
+  color:#021423;
+  font-size:18px;
+  font-weight:1000;
+  display:grid;
+  place-items:center;
+  box-shadow:0 12px 30px rgba(210,217,4,.22);
+}
 .price-row{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -193,35 +209,17 @@ textarea{min-height:95px;resize:vertical}
   color:var(--lime);
   font-size:20px;
 }
-.menu-dot{
-  width:42px;height:42px;
-  border-radius:15px;
-  background:#fff;
-  color:var(--navy);
-  font-size:24px;
-  font-weight:900;
+.card-actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+  flex-wrap:wrap;
 }
-.action-menu{
-  position:absolute;
-  right:14px;
-  top:54px;
-  width:118px;
-  display:none;
-  background:#fff;
-  color:var(--navy);
-  border-radius:14px;
-  padding:6px;
-  z-index:5;
-  box-shadow:0 14px 35px rgba(0,0,0,.32);
-}
-.action-menu.active{display:grid;gap:5px}
-.action-menu button{
-  width:100%;
-  padding:8px 9px;
-  border-radius:10px;
-  font-weight:900;
-  text-align:left;
+.card-actions button{
+  padding:9px 12px;
+  border-radius:12px;
   font-size:12px;
+  font-weight:900;
 }
 .edit{background:#eef8fb;color:var(--navy)}
 .sold-btn{background:#dfffe9;color:#087235}
@@ -284,9 +282,43 @@ textarea{min-height:95px;resize:vertical}
   font-size:13px;
 }
 .full{grid-column:1/-1}
-.save{
-  margin-top:16px;
+.save{margin-top:16px}
+
+.alert-wrap{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20000;
+  padding:18px;
 }
+.alert-wrap.active{display:flex}
+.custom-alert{
+  width:100%;
+  max-width:390px;
+  border-radius:26px;
+  padding:24px;
+  text-align:center;
+}
+.custom-alert h2{
+  color:var(--lime);
+  margin-bottom:8px;
+}
+.custom-alert p{
+  font-weight:800;
+  margin-bottom:18px;
+}
+.custom-alert button{
+  width:100%;
+  padding:14px;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--turq),var(--blue));
+  color:#021423;
+  font-weight:900;
+}
+
 footer{
   padding:28px 16px 40px;
   text-align:center;
@@ -312,30 +344,24 @@ footer b{color:var(--turq)}
   }
 
   .stats{
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:8px;
   }
   .stat{
-    padding:13px 8px;
+    padding:13px 6px;
     border-radius:18px;
     text-align:center;
   }
-  .stat b{font-size:20px}
-  .stat span{font-size:11px}
+  .stat b{font-size:18px}
+  .stat span{font-size:10px}
 
   .phone-card{
-    grid-template-columns:1fr 34px;
+    grid-template-columns:1fr auto;
     gap:10px;
     padding:13px;
     border-radius:22px;
   }
-  .phone-info h2{
-    font-size:18px;
-  }
-  .tags{
-    gap:5px;
-    margin:7px 0;
-  }
+  .phone-info h2{font-size:18px}
   .tag{
     font-size:10.5px;
     padding:5px 7px;
@@ -354,15 +380,11 @@ footer b{color:var(--turq)}
   }
   .price-box span{font-size:10px}
   .price-box b{font-size:14px}
-  .menu-dot{
-    width:34px;
+  .device-code{
+    min-width:58px;
     height:34px;
+    font-size:14px;
     border-radius:12px;
-    font-size:20px;
-  }
-  .action-menu{
-    right:10px;
-    top:50px;
   }
 
   .modal{
@@ -374,15 +396,6 @@ footer b{color:var(--turq)}
     border-radius:24px;
     padding:18px;
   }
-  .modal-top{
-    margin-bottom:14px;
-  }
-  .modal-top h1{
-    font-size:23px;
-  }
-  .modal-top p{
-    font-size:13px;
-  }
   .form-grid{
     grid-template-columns:1fr 1fr;
     gap:9px;
@@ -392,29 +405,14 @@ footer b{color:var(--turq)}
     border-radius:13px;
     font-size:13px;
   }
-  textarea{
-    min-height:80px;
-  }
-  .save{
-    margin-top:12px;
-    padding:13px;
-  }
 }
 
 @media(max-width:470px){
-  .login-box{
-    padding:24px;
-    border-radius:26px;
+  .stats{
+    grid-template-columns:repeat(4,1fr);
   }
-  .logo{
-    width:64px;
-    height:64px;
-    font-size:30px;
-  }
-
-  .welcome h1{
-    font-size:25px;
-  }
+  .stat b{font-size:15px}
+  .stat span{font-size:8.5px}
 
   .phone-info h2{
     font-size:16px;
@@ -424,45 +422,13 @@ footer b{color:var(--turq)}
     font-size:9.5px;
     padding:4px 6px;
   }
-  .price-box b{
-    font-size:13px;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .modal{
-    padding:20px 10px;
-  }
-
-  .modal-box{
-    max-height:calc(100vh - 40px);
-    padding:16px;
-    border-radius:22px;
-  }
-
-  footer{
-    font-size:13px;
-    padding-bottom:28px;
-  }
+  .price-box b{font-size:13px}
+  .form-grid{grid-template-columns:1fr}
+  footer{font-size:13px;padding-bottom:28px}
 }
 </style>
 </head>
 
-<script>
-document.addEventListener("contextmenu", e => e.preventDefault());
-document.addEventListener("copy", e => e.preventDefault());
-document.addEventListener("cut", e => e.preventDefault());
-document.addEventListener("selectstart", e => e.preventDefault());
-
-document.addEventListener("keydown", function(e){
-  if(e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "u")){
-    e.preventDefault();
-  }
-});
-</script>
-  
 <body>
 
 <div class="login" id="loginScreen">
@@ -488,18 +454,26 @@ document.addEventListener("keydown", function(e){
     <button class="add-btn" onclick="openModal()">Telefon Ekle</button>
   </div>
 
+  <div class="search-box">
+    <input id="searchInput" oninput="renderPhones()" placeholder="Etiket numarası ile ara... Örn: 1453">
+  </div>
+
   <div class="stats">
     <div class="stat">
       <b id="totalDevice">0</b>
       <span>Toplam Cihaz</span>
     </div>
     <div class="stat">
+      <b id="soldDevice">0</b>
+      <span>Satılan Cihaz</span>
+    </div>
+    <div class="stat">
       <b id="turnover">0 TL</b>
       <span>Ciro</span>
     </div>
     <div class="stat">
-      <b id="soldDevice">0</b>
-      <span>Satılan Cihaz</span>
+      <b id="profit">0 TL</b>
+      <span>Kar</span>
     </div>
   </div>
 
@@ -514,7 +488,7 @@ document.addEventListener("keydown", function(e){
     <div class="modal-top">
       <div>
         <h1 id="modalTitle">Telefon Ekle</h1>
-        <p>Marka, model, GB, kasa durumu ve fiyat bilgilerini gir.</p>
+        <p>Marka, model, GB, kasa durumu, fiyat ve etiket bilgilerini gir.</p>
       </div>
       <button class="close" onclick="closeModal()">×</button>
     </div>
@@ -522,6 +496,11 @@ document.addEventListener("keydown", function(e){
     <input type="hidden" id="editId">
 
     <div class="form-grid">
+      <label>
+        Etiket No
+        <input id="deviceCode" maxlength="4" inputmode="numeric" placeholder="Örn: 1453">
+      </label>
+
       <label>
         Marka
         <select id="brand" onchange="fillModels(); batteryControl();">
@@ -610,9 +589,30 @@ document.addEventListener("keydown", function(e){
   </div>
 </div>
 
+<div class="alert-wrap" id="customAlert">
+  <div class="custom-alert">
+    <h2>Eksik Bilgi Var</h2>
+    <p id="alertText">Lütfen not hariç tüm kutuları doldurun.</p>
+    <button onclick="closeAlert()">Tamam</button>
+  </div>
+</div>
+
 <footer>
   <b>Kaan Ayaz Web Developer</b> tarafından hazırlanmıştır
 </footer>
+
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("copy", e => e.preventDefault());
+document.addEventListener("cut", e => e.preventDefault());
+document.addEventListener("selectstart", e => e.preventDefault());
+
+document.addEventListener("keydown", function(e){
+  if(e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "u")){
+    e.preventDefault();
+  }
+});
+</script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
@@ -694,6 +694,15 @@ window.closeModal = function(){
   document.getElementById("phoneModal").classList.remove("active");
 }
 
+window.closeAlert = function(){
+  document.getElementById("customAlert").classList.remove("active");
+}
+
+function showAlert(text){
+  document.getElementById("alertText").innerText = text;
+  document.getElementById("customAlert").classList.add("active");
+}
+
 window.fillModels = function(){
   const brand = document.getElementById("brand").value;
   const model = document.getElementById("model");
@@ -722,9 +731,12 @@ window.batteryControl = function(){
 
 window.savePhone = async function(){
   const id = document.getElementById("editId").value;
+  const brand = document.getElementById("brand").value;
+  const deviceCode = document.getElementById("deviceCode").value.trim();
 
   const phone = {
-    brand: document.getElementById("brand").value,
+    deviceCode,
+    brand,
     model: document.getElementById("model").value,
     storageGb: document.getElementById("storageGb").value,
     caseStatus: document.getElementById("caseStatus").value,
@@ -737,8 +749,29 @@ window.savePhone = async function(){
     createdAt: Date.now()
   };
 
-  if(!phone.brand || !phone.model || !phone.storageGb || !phone.caseStatus || !phone.buyPrice || !phone.sellPrice){
-    alert("Marka, model, GB, kasa durumu, geliş fiyatı ve satış fiyatı boş kalmasın.");
+  if(
+    !phone.deviceCode ||
+    !phone.brand ||
+    !phone.model ||
+    !phone.storageGb ||
+    !phone.caseStatus ||
+    !phone.warranty ||
+    !phone.buyPrice ||
+    !phone.sellPrice ||
+    (phone.brand === "Apple" && !phone.battery)
+  ){
+    showAlert("Eksik kutular var. Lütfen not alanı hariç tüm bilgileri doldurun.");
+    return;
+  }
+
+  if(!/^[0-9]{4}$/.test(phone.deviceCode)){
+    showAlert("Etiket numarası 4 haneli olmalı. Örnek: 1453");
+    return;
+  }
+
+  const codeUsed = phones.some(p => p.deviceCode === phone.deviceCode && p.id !== id);
+  if(codeUsed){
+    showAlert("Bu etiket numarası başka bir cihazda kullanılıyor.");
     return;
   }
 
@@ -774,21 +807,33 @@ async function loadPhones(){
   }
 }
 
-function renderPhones(){
+window.renderPhones = function(){
   const list = document.getElementById("phoneList");
+  const search = document.getElementById("searchInput")?.value.trim().toLowerCase() || "";
+
+  const soldPhones = phones.filter(p => p.sold);
+  const ciro = soldPhones.reduce((t,p) => t + Number(p.sellPrice || 0), 0);
+  const kar = soldPhones.reduce((t,p) => t + (Number(p.sellPrice || 0) - Number(p.buyPrice || 0)), 0);
 
   document.getElementById("totalDevice").innerText = phones.length;
-  document.getElementById("soldDevice").innerText = phones.filter(p => p.sold).length;
-
-  const ciro = phones.filter(p => p.sold).reduce((t,p) => t + Number(p.sellPrice || 0), 0);
+  document.getElementById("soldDevice").innerText = soldPhones.length;
   document.getElementById("turnover").innerText = formatTL(ciro);
+  document.getElementById("profit").innerText = formatTL(kar);
 
-  if(phones.length === 0){
-    list.innerHTML = `<div class="empty">Henüz telefon eklenmedi.</div>`;
+  let filteredPhones = phones;
+
+  if(search){
+    filteredPhones = phones.filter(p =>
+      String(p.deviceCode || "").toLowerCase().includes(search)
+    );
+  }
+
+  if(filteredPhones.length === 0){
+    list.innerHTML = `<div class="empty">Cihaz bulunamadı.</div>`;
     return;
   }
 
-  list.innerHTML = phones.map(phone => `
+  list.innerHTML = filteredPhones.map(phone => `
     <div class="phone-card ${phone.sold ? "sold" : ""}">
       <div class="phone-info">
         <h2>${safe(phone.brand)} ${safe(phone.model)}</h2>
@@ -813,24 +858,17 @@ function renderPhones(){
             <b>${formatTL(phone.sellPrice)}</b>
           </div>
         </div>
+
+        <div class="card-actions">
+          <button class="edit" onclick="editPhone('${phone.id}')">Düzenle</button>
+          <button class="sold-btn" onclick="toggleSold('${phone.id}')">${phone.sold ? "Stokta Yap" : "Satıldı"}</button>
+          <button class="delete" onclick="deletePhone('${phone.id}')">Sil</button>
+        </div>
       </div>
 
-      <button class="menu-dot" onclick="toggleAction('${phone.id}')">⋮</button>
-
-      <div class="action-menu" id="menu-${phone.id}">
-        <button class="edit" onclick="editPhone('${phone.id}')">Düzenle</button>
-        <button class="sold-btn" onclick="toggleSold('${phone.id}')">${phone.sold ? "Stokta Yap" : "Satıldı"}</button>
-        <button class="delete" onclick="deletePhone('${phone.id}')">Sil</button>
-      </div>
+      <div class="device-code">${safe(phone.deviceCode || "0000")}</div>
     </div>
   `).join("");
-}
-
-window.toggleAction = function(id){
-  document.querySelectorAll(".action-menu").forEach(m => {
-    if(m.id !== "menu-" + id) m.classList.remove("active");
-  });
-  document.getElementById("menu-" + id).classList.toggle("active");
 }
 
 window.editPhone = function(id){
@@ -839,6 +877,7 @@ window.editPhone = function(id){
 
   document.getElementById("modalTitle").innerText = "Telefon Düzenle";
   document.getElementById("editId").value = phone.id;
+  document.getElementById("deviceCode").value = phone.deviceCode || "";
   document.getElementById("brand").value = phone.brand;
   fillModels();
   document.getElementById("model").value = phone.model;
@@ -874,6 +913,7 @@ window.deletePhone = async function(id){
 
 window.clearForm = function(){
   document.getElementById("editId").value = "";
+  document.getElementById("deviceCode").value = "";
   document.getElementById("brand").value = "";
   document.getElementById("model").innerHTML = `<option value="">Önce marka seç</option>`;
   document.getElementById("storageGb").value = "";
