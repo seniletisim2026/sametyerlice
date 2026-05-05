@@ -99,7 +99,7 @@ textarea{min-height:95px;resize:vertical}
   font-weight:900;
   font-size:16px;
 }
-.exit-btn{background:#fff;color:var(--navy)}
+.exit-btn{background:var(--red);color:#fff}
 .add-btn{background:linear-gradient(135deg,var(--turq),var(--blue));color:#021423}
 .brand-btn{background:linear-gradient(135deg,var(--lime),#fff36b);color:#021423}
 
@@ -509,7 +509,7 @@ footer b{color:var(--turq)}
   <div class="top-buttons">
     <button class="exit-btn" onclick="exitPanel()">Çıkış Yap</button>
     <button class="add-btn" onclick="openModal()">Telefon Ekle</button>
-    <button class="brand-btn" onclick="openBrandModal()">Marka Ekle</button>
+    <button class="brand-btn" onclick="openBrandModal()">Model Ekle</button>
   </div>
 
   <div class="search-box">
@@ -519,8 +519,8 @@ footer b{color:var(--turq)}
   <div class="stats">
     <div class="stat"><b id="totalDevice">0</b><span>Toplam Cihaz</span></div>
     <div class="stat"><b id="soldDevice">0</b><span>Satılan Cihaz</span></div>
-    <div class="stat"><b id="turnover">0 TL</b><span>Ciro</span></div>
-    <div class="stat"><b id="profit">0 TL</b><span>Kar</span></div>
+    <div class="stat"><b id="turnover">₺0</b><span>Ciro</span></div>
+    <div class="stat"><b id="profit">₺0</b><span>Kar</span></div>
   </div>
 
   <div class="phone-list" id="phoneList">
@@ -614,28 +614,24 @@ footer b{color:var(--turq)}
     <div class="modal-top">
       <div>
         <h1>Marka & Model Yönetimi</h1>
-        <p>Yeni marka ekle, modelleri düzenle veya gereksiz markaları sil.</p>
+        <p>Markayı seç, yeni modeli yaz. Eklenen model listenin en üstüne gelir.</p>
       </div>
       <button class="close" onclick="closeBrandModal()">×</button>
     </div>
 
-    <input type="hidden" id="brandEditId">
-
     <div class="form-grid">
-      <label>Marka Adı
-        <input id="brandNameInput" placeholder="Örn: Apple">
+      <label>Marka Seç
+        <select id="brandManageSelect" onchange="renderModelManageList()">
+          <option value="">Marka seç</option>
+        </select>
       </label>
 
-      <label>Sıra Numarası
-        <input id="brandOrderInput" type="number" placeholder="Örn: 1">
-      </label>
-
-      <label class="full">Modeller
-        <textarea id="brandModelsInput" placeholder="Her modeli virgül ile ayır. Örn: iPhone 16 Pro Max, iPhone 15, iPhone 14"></textarea>
+      <label>Yeni Model
+        <input id="newModelInput" placeholder="Örn: iPhone 17 Pro Max">
       </label>
     </div>
 
-    <button class="main-btn save" onclick="saveBrand()">Markayı Kaydet</button>
+    <button class="main-btn save" onclick="saveNewModel()">Modeli En Üste Ekle</button>
 
     <div class="brand-list" id="brandList"></div>
   </div>
@@ -695,128 +691,28 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const PASSWORD = "5435641891";
+
 let phones = [];
-let brands = [];
+let customModels = [];
+let hiddenModels = [];
 
 const modelData = {
-  "Apple":[
-    "iPhone 17 Pro Max","iPhone 17 Pro","iPhone 17 Plus","iPhone 17",
-    "iPhone 16 Pro Max","iPhone 16 Pro","iPhone 16 Plus","iPhone 16",
-    "iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15 Plus","iPhone 15",
-    "iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14 Plus","iPhone 14",
-    "iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13","iPhone 13 Mini",
-    "iPhone 12 Pro Max","iPhone 12 Pro","iPhone 12","iPhone 12 Mini",
-    "iPhone 11 Pro Max","iPhone 11 Pro","iPhone 11",
-    "iPhone XS Max","iPhone XS","iPhone XR","iPhone X",
-    "iPhone 8 Plus","iPhone 8","iPhone 7 Plus","iPhone 7"
-  ],
-
-  "Samsung":[
-    "Galaxy S25 Ultra","Galaxy S25 Plus","Galaxy S25",
-    "Galaxy S24 Ultra","Galaxy S24 Plus","Galaxy S24 FE","Galaxy S24",
-    "Galaxy S23 Ultra","Galaxy S23 Plus","Galaxy S23 FE","Galaxy S23",
-    "Galaxy S22 Ultra","Galaxy S22 Plus","Galaxy S22",
-    "Galaxy S21 Ultra","Galaxy S21 FE","Galaxy S21",
-    "Galaxy A56","Galaxy A55","Galaxy A54","Galaxy A53",
-    "Galaxy A36","Galaxy A35","Galaxy A34",
-    "Galaxy A26","Galaxy A25","Galaxy A24",
-    "Galaxy A16","Galaxy A15","Galaxy A14",
-    "Galaxy M55","Galaxy M35","Galaxy M15",
-    "Galaxy Note 20 Ultra","Galaxy Note 20","Galaxy Note 10 Plus",
-    "Galaxy Z Fold 6","Galaxy Z Fold 5","Galaxy Z Fold 4",
-    "Galaxy Z Flip 6","Galaxy Z Flip 5","Galaxy Z Flip 4"
-  ],
-
-  "Xiaomi":[
-    "Xiaomi 15 Ultra","Xiaomi 15","Xiaomi 14 Ultra","Xiaomi 14","Xiaomi 13T Pro","Xiaomi 13T",
-    "Redmi Note 14 Pro Plus","Redmi Note 14 Pro","Redmi Note 14",
-    "Redmi Note 13 Pro Plus","Redmi Note 13 Pro","Redmi Note 13",
-    "Redmi Note 12 Pro","Redmi Note 12","Redmi Note 11 Pro","Redmi Note 11",
-    "Redmi 14C","Redmi 13C","Redmi 12",
-    "Poco F6 Pro","Poco F6","Poco F5 Pro","Poco F5",
-    "Poco X7 Pro","Poco X7","Poco X6 Pro","Poco X6","Poco X5 Pro"
-  ],
-
-  "Huawei":[
-    "Pura 70 Ultra","Pura 70 Pro","Pura 70",
-    "P60 Pro","P60","P50 Pro","P50",
-    "P40 Pro","P40 Lite","P30 Pro","P30 Lite",
-    "Mate 60 Pro","Mate 50 Pro","Mate 40 Pro","Mate 30 Pro","Mate 20 Lite",
-    "Nova 13 Pro","Nova 13","Nova 12 SE","Nova 11","Nova 10","Nova 9",
-    "Y9 Prime","Y7","Y6"
-  ],
-
-  "Oppo":[
-    "Reno 13 Pro","Reno 13","Reno 12 Pro","Reno 12","Reno 11 Pro","Reno 11",
-    "Reno 10","Reno 8","Reno 6",
-    "A98","A96","A78","A74","A58","A54","A38","A18","A16"
-  ],
-
-  "Realme":[
-    "Realme GT 7 Pro","Realme GT 6","Realme GT Neo 6",
-    "Realme 14 Pro Plus","Realme 14 Pro","Realme 14",
-    "Realme 13 Pro Plus","Realme 13 Pro","Realme 13",
-    "Realme 12 Pro Plus","Realme 12 Pro","Realme 12",
-    "Realme 11 Pro","Realme 11","Realme 10","Realme 9 Pro",
-    "Realme C67","Realme C65","Realme C55","Realme C35"
-  ],
-
-  "Vivo":[
-    "Vivo V50","Vivo V40","Vivo V30","Vivo V29",
-    "Vivo Y300","Vivo Y200","Vivo Y100",
-    "Vivo Y36","Vivo Y35","Vivo Y28","Vivo Y22",
-    "Vivo X100 Pro","Vivo X90 Pro"
-  ],
-
-  "Honor":[
-    "Honor Magic 7 Pro","Honor Magic 6 Pro","Honor Magic 5 Pro",
-    "Honor 200 Pro","Honor 200","Honor 100","Honor 90","Honor 70",
-    "Honor X9B","Honor X9A","Honor X8B","Honor X8","Honor X7B"
-  ],
-
-  "General Mobile":[
-    "GM 25 Pro","GM 24 Pro","GM 24","GM 23","GM 22","GM 21",
-    "GM 20 Pro","GM 9 Pro","GM 8"
-  ],
-
-  "Tecno":[
-    "Camon 30 Pro","Camon 30","Camon 20 Pro","Camon 20",
-    "Spark 30 Pro","Spark 30","Spark 20 Pro","Spark 20","Spark 10",
-    "Pova 6 Pro","Pova 6","Pova 5 Pro","Pova 5"
-  ],
-
-  "Infinix":[
-    "Note 40 Pro Plus","Note 40 Pro","Note 40",
-    "Note 30 Pro","Note 30",
-    "Hot 50 Pro","Hot 50","Hot 40 Pro","Hot 40","Hot 30",
-    "Zero 40","Zero 30","Smart 8"
-  ],
-
-  "Reeder":[
-    "S23 Pro Max","S23 Pro","S23",
-    "S19 Max Pro","S19 Max","S19",
-    "P13 Blue Max Pro","P13 Blue Max","P13"
-  ],
-
-  "Casper":[
-    "Via X40","Via X30","Via F40","Via F30","Via E30","Via M30"
-  ],
-
-  "Vestel":[
-    "Venus Z40","Venus Z30","Venus V7","Venus V6","Venus E5"
-  ],
-
-  "Nokia":[
-    "Nokia G42","Nokia G22","Nokia G21","Nokia G20",
-    "Nokia C32","Nokia C31","Nokia C21",
-    "Nokia 8.3","Nokia 7.2","Nokia 6.2"
-  ],
-
-  "Motorola":[
-    "Moto Edge 50 Ultra","Moto Edge 50 Pro","Moto Edge 50",
-    "Moto Edge 40 Pro","Moto Edge 40",
-    "Moto G85","Moto G84","Moto G73","Moto G54","Moto G32"
-  ]
+  "Apple":["iPhone 17 Pro Max","iPhone 17 Pro","iPhone 17 Plus","iPhone 17","iPhone 16 Pro Max","iPhone 16 Pro","iPhone 16 Plus","iPhone 16","iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15 Plus","iPhone 15","iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14 Plus","iPhone 14","iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13","iPhone 13 Mini","iPhone 12 Pro Max","iPhone 12 Pro","iPhone 12","iPhone 12 Mini","iPhone 11 Pro Max","iPhone 11 Pro","iPhone 11","iPhone XS Max","iPhone XS","iPhone XR","iPhone X","iPhone 8 Plus","iPhone 8","iPhone 7 Plus","iPhone 7"],
+  "Samsung":["Galaxy S25 Ultra","Galaxy S25 Plus","Galaxy S25","Galaxy S24 Ultra","Galaxy S24 Plus","Galaxy S24 FE","Galaxy S24","Galaxy S23 Ultra","Galaxy S23 Plus","Galaxy S23 FE","Galaxy S23","Galaxy S22 Ultra","Galaxy S22 Plus","Galaxy S22","Galaxy S21 Ultra","Galaxy S21 FE","Galaxy S21","Galaxy A56","Galaxy A55","Galaxy A54","Galaxy A53","Galaxy A36","Galaxy A35","Galaxy A34","Galaxy A26","Galaxy A25","Galaxy A24","Galaxy A16","Galaxy A15","Galaxy A14","Galaxy M55","Galaxy M35","Galaxy M15","Galaxy Note 20 Ultra","Galaxy Note 20","Galaxy Note 10 Plus","Galaxy Z Fold 6","Galaxy Z Fold 5","Galaxy Z Fold 4","Galaxy Z Flip 6","Galaxy Z Flip 5","Galaxy Z Flip 4"],
+  "Xiaomi":["Xiaomi 15 Ultra","Xiaomi 15","Xiaomi 14 Ultra","Xiaomi 14","Xiaomi 13T Pro","Xiaomi 13T","Redmi Note 14 Pro Plus","Redmi Note 14 Pro","Redmi Note 14","Redmi Note 13 Pro Plus","Redmi Note 13 Pro","Redmi Note 13","Redmi Note 12 Pro","Redmi Note 12","Redmi Note 11 Pro","Redmi Note 11","Redmi 14C","Redmi 13C","Redmi 12","Poco F6 Pro","Poco F6","Poco F5 Pro","Poco F5","Poco X7 Pro","Poco X7","Poco X6 Pro","Poco X6","Poco X5 Pro"],
+  "Huawei":["Pura 70 Ultra","Pura 70 Pro","Pura 70","P60 Pro","P60","P50 Pro","P50","P40 Pro","P40 Lite","P30 Pro","P30 Lite","Mate 60 Pro","Mate 50 Pro","Mate 40 Pro","Mate 30 Pro","Mate 20 Lite","Nova 13 Pro","Nova 13","Nova 12 SE","Nova 11","Nova 10","Nova 9","Y9 Prime","Y7","Y6"],
+  "Oppo":["Reno 13 Pro","Reno 13","Reno 12 Pro","Reno 12","Reno 11 Pro","Reno 11","Reno 10","Reno 8","Reno 6","A98","A96","A78","A74","A58","A54","A38","A18","A16"],
+  "Realme":["Realme GT 7 Pro","Realme GT 6","Realme GT Neo 6","Realme 14 Pro Plus","Realme 14 Pro","Realme 14","Realme 13 Pro Plus","Realme 13 Pro","Realme 13","Realme 12 Pro Plus","Realme 12 Pro","Realme 12","Realme 11 Pro","Realme 11","Realme 10","Realme 9 Pro","Realme C67","Realme C65","Realme C55","Realme C35"],
+  "Vivo":["Vivo V50","Vivo V40","Vivo V30","Vivo V29","Vivo Y300","Vivo Y200","Vivo Y100","Vivo Y36","Vivo Y35","Vivo Y28","Vivo Y22","Vivo X100 Pro","Vivo X90 Pro"],
+  "Honor":["Honor Magic 7 Pro","Honor Magic 6 Pro","Honor Magic 5 Pro","Honor 200 Pro","Honor 200","Honor 100","Honor 90","Honor 70","Honor X9B","Honor X9A","Honor X8B","Honor X8","Honor X7B"],
+  "General Mobile":["GM 25 Pro","GM 24 Pro","GM 24","GM 23","GM 22","GM 21","GM 20 Pro","GM 9 Pro","GM 8"],
+  "Tecno":["Camon 30 Pro","Camon 30","Camon 20 Pro","Camon 20","Spark 30 Pro","Spark 30","Spark 20 Pro","Spark 20","Spark 10","Pova 6 Pro","Pova 6","Pova 5 Pro","Pova 5"],
+  "Infinix":["Note 40 Pro Plus","Note 40 Pro","Note 40","Note 30 Pro","Note 30","Hot 50 Pro","Hot 50","Hot 40 Pro","Hot 40","Hot 30","Zero 40","Zero 30","Smart 8"],
+  "Reeder":["S23 Pro Max","S23 Pro","S23","S19 Max Pro","S19 Max","S19","P13 Blue Max Pro","P13 Blue Max","P13"],
+  "Casper":["Via X40","Via X30","Via F40","Via F30","Via E30","Via M30"],
+  "Vestel":["Venus Z40","Venus Z30","Venus V7","Venus V6","Venus E5"],
+  "Nokia":["Nokia G42","Nokia G22","Nokia G21","Nokia G20","Nokia C32","Nokia C31","Nokia C21","Nokia 8.3","Nokia 7.2","Nokia 6.2"],
+  "Motorola":["Moto Edge 50 Ultra","Moto Edge 50 Pro","Moto Edge 50","Moto Edge 40 Pro","Moto Edge 40","Moto G85","Moto G84","Moto G73","Moto G54","Moto G32"]
 };
 
 window.login = function(){
@@ -833,7 +729,7 @@ window.login = function(){
 async function showPanel(){
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("panelScreen").style.display = "block";
-  await loadBrands();
+  await loadModels();
   await loadPhones();
 }
 
@@ -854,8 +750,9 @@ window.closeModal = function(){
 }
 
 window.openBrandModal = function(){
-  clearBrandForm();
-  renderBrands();
+  document.getElementById("newModelInput").value = "";
+  fillBrandManageSelect();
+  renderModelManageList();
   document.getElementById("brandModal").classList.add("active");
 }
 
@@ -887,16 +784,45 @@ function showConfirm(title,text,onYes){
   document.getElementById("confirmYes").onclick = onYes;
 }
 
-async function loadBrands(){
-  const snap = await getDocs(query(collection(db, "brands"), orderBy("order", "asc")));
-  brands = [];
-  snap.forEach(item => brands.push({id:item.id, ...item.data()}));
+async function loadModels(){
+  customModels = [];
+  hiddenModels = [];
 
-  if(brands.length === 0){
-    brands = defaultBrands.map((b,i) => ({id:"default-"+i, ...b}));
+  try{
+    const customSnap = await getDocs(query(collection(db, "customModels"), orderBy("createdAt", "desc")));
+    customSnap.forEach(item => customModels.push({id:item.id, ...item.data()}));
+  }catch(err){
+    console.warn("customModels okunamadı:", err);
+  }
+
+  try{
+    const hiddenSnap = await getDocs(collection(db, "hiddenModels"));
+    hiddenSnap.forEach(item => hiddenModels.push({id:item.id, ...item.data()}));
+  }catch(err){
+    console.warn("hiddenModels okunamadı:", err);
   }
 
   fillBrandSelect();
+  fillBrandManageSelect();
+}
+
+function getModelsByBrand(brand){
+  const hiddenSet = new Set(
+    hiddenModels
+      .filter(x => x.brand === brand)
+      .map(x => String(x.model || "").toLowerCase())
+  );
+
+  const custom = customModels
+    .filter(x => x.brand === brand)
+    .map(x => x.model)
+    .filter(Boolean);
+
+  const defaults = modelData[brand] || [];
+
+  return [...custom, ...defaults]
+    .filter((model,index,arr) => arr.indexOf(model) === index)
+    .filter(model => !hiddenSet.has(String(model).toLowerCase()));
 }
 
 function fillBrandSelect(){
@@ -904,25 +830,113 @@ function fillBrandSelect(){
   if(!brandSelect) return;
 
   brandSelect.innerHTML = `<option value="">Marka seç</option>`;
-  brands
-    .sort((a,b) => Number(a.order || 999) - Number(b.order || 999))
-    .forEach(b => {
-      brandSelect.innerHTML += `<option>${safe(b.name)}</option>`;
-    });
+
+  Object.keys(modelData).forEach(brand => {
+    brandSelect.innerHTML += `<option>${safe(brand)}</option>`;
+  });
+}
+
+function fillBrandManageSelect(){
+  const select = document.getElementById("brandManageSelect");
+  if(!select) return;
+
+  select.innerHTML = `<option value="">Marka seç</option>`;
+
+  Object.keys(modelData).forEach(brand => {
+    select.innerHTML += `<option>${safe(brand)}</option>`;
+  });
 }
 
 window.fillModels = function(){
   const brandName = document.getElementById("brand").value;
   const model = document.getElementById("model");
+
   model.innerHTML = `<option value="">Model seç</option>`;
 
-  const selectedBrand = brands.find(b => b.name === brandName);
+  getModelsByBrand(brandName).forEach(m => {
+    model.innerHTML += `<option>${safe(m)}</option>`;
+  });
+}
 
-  if(selectedBrand && Array.isArray(selectedBrand.models)){
-    selectedBrand.models.forEach(m => {
-      model.innerHTML += `<option>${safe(m)}</option>`;
-    });
+window.renderModelManageList = function(){
+  const list = document.getElementById("brandList");
+  const brand = document.getElementById("brandManageSelect")?.value || "";
+
+  if(!brand){
+    list.innerHTML = `<div class="empty">Model listesini görmek için marka seç.</div>`;
+    return;
   }
+
+  const models = getModelsByBrand(brand);
+
+  if(models.length === 0){
+    list.innerHTML = `<div class="empty">Bu markada model yok.</div>`;
+    return;
+  }
+
+  list.innerHTML = models.map(model => `
+    <div class="brand-card">
+      <b>${safe(brand)}</b>
+      <p>${safe(model)}</p>
+      <div class="brand-actions">
+        <button class="delete" onclick="deleteModel('${safeJs(brand)}','${safeJs(model)}')">Modeli Sil</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+window.saveNewModel = async function(){
+  const brand = document.getElementById("brandManageSelect").value;
+  const model = document.getElementById("newModelInput").value.trim();
+
+  if(!brand || !model){
+    showAlert("Eksik Bilgi Var","Lütfen marka seç ve model adını yaz.");
+    return;
+  }
+
+  const exists = getModelsByBrand(brand).some(m => m.toLowerCase() === model.toLowerCase());
+
+  if(exists){
+    showAlert("Model Zaten Var","Bu model zaten bu markanın listesinde bulunuyor.");
+    return;
+  }
+
+  await addDoc(collection(db, "customModels"), {
+    brand,
+    model,
+    createdAt: Date.now()
+  });
+
+  document.getElementById("newModelInput").value = "";
+
+  await loadModels();
+  document.getElementById("brandManageSelect").value = brand;
+  renderModelManageList();
+}
+
+window.deleteModel = function(brand, model){
+  showConfirm(
+    "Model Silinsin mi?",
+    `${brand} markasındaki ${model} modelini listeden kaldırmak üzeresin. Mevcut telefon kayıtları silinmez.`,
+    async function(){
+      const custom = customModels.find(x => x.brand === brand && x.model === model);
+
+      if(custom){
+        await deleteDoc(doc(db, "customModels", custom.id));
+      }else{
+        await addDoc(collection(db, "hiddenModels"), {
+          brand,
+          model,
+          createdAt: Date.now()
+        });
+      }
+
+      closeAlert();
+      await loadModels();
+      document.getElementById("brandManageSelect").value = brand;
+      renderModelManageList();
+    }
+  );
 }
 
 window.batteryControl = function(){
@@ -937,92 +951,6 @@ window.batteryControl = function(){
     battery.disabled = true;
     battery.placeholder = "Apple dışında kapalı";
   }
-}
-
-window.saveBrand = async function(){
-  const id = document.getElementById("brandEditId").value;
-  const name = document.getElementById("brandNameInput").value.trim();
-  const order = Number(document.getElementById("brandOrderInput").value || 999);
-  const modelsRaw = document.getElementById("brandModelsInput").value.trim();
-
-  if(!name || !modelsRaw){
-    showAlert("Eksik Bilgi Var","Marka adı ve modeller alanı boş kalamaz.");
-    return;
-  }
-
-  const models = modelsRaw.split(",").map(m => m.trim()).filter(Boolean);
-
-  const brandData = {name, order, models};
-
-  if(id && !id.startsWith("default-")){
-    await updateDoc(doc(db, "brands", id), brandData);
-  }else{
-    await addDoc(collection(db, "brands"), brandData);
-  }
-
-  clearBrandForm();
-  await loadBrands();
-  renderBrands();
-}
-
-function renderBrands(){
-  const list = document.getElementById("brandList");
-
-  if(brands.length === 0){
-    list.innerHTML = `<div class="empty">Henüz marka eklenmedi.</div>`;
-    return;
-  }
-
-  list.innerHTML = brands
-    .sort((a,b) => Number(a.order || 999) - Number(b.order || 999))
-    .map(b => `
-      <div class="brand-card">
-        <b>${safe(b.order || "-")}. ${safe(b.name)}</b>
-        <p>${safe((b.models || []).join(", "))}</p>
-        <div class="brand-actions">
-          <button class="edit" onclick="editBrand('${b.id}')">Düzenle</button>
-          <button class="delete" onclick="deleteBrand('${b.id}')">Sil</button>
-        </div>
-      </div>
-    `).join("");
-}
-
-window.editBrand = function(id){
-  const b = brands.find(x => x.id === id);
-  if(!b) return;
-
-  document.getElementById("brandEditId").value = b.id;
-  document.getElementById("brandNameInput").value = b.name || "";
-  document.getElementById("brandOrderInput").value = b.order || "";
-  document.getElementById("brandModelsInput").value = (b.models || []).join(", ");
-}
-
-window.deleteBrand = function(id){
-  const b = brands.find(x => x.id === id);
-  if(!b) return;
-
-  if(id.startsWith("default-")){
-    showAlert("Silinemez","Varsayılan markayı silmek için önce aynı markayı Marka Ekle bölümünden kaydetmen gerekir.");
-    return;
-  }
-
-  showConfirm(
-    "Marka Silinsin mi?",
-    `${b.name} markasını silersen bu marka yeni telefon ekleme seçeneklerinden kaldırılır. Mevcut kayıtlı telefonlar silinmez.`,
-    async function(){
-      await deleteDoc(doc(db, "brands", id));
-      closeAlert();
-      await loadBrands();
-      renderBrands();
-    }
-  );
-}
-
-function clearBrandForm(){
-  document.getElementById("brandEditId").value = "";
-  document.getElementById("brandNameInput").value = "";
-  document.getElementById("brandOrderInput").value = "";
-  document.getElementById("brandModelsInput").value = "";
 }
 
 window.savePhone = async function(){
@@ -1253,6 +1181,13 @@ function safe(value){
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+}
+
+function safeJs(value){
+  return String(value || "")
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll('"','\\"');
 }
 
 document.addEventListener("keydown", function(e){
