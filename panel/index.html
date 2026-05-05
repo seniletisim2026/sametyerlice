@@ -24,16 +24,8 @@ body{
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer;border:none}
-
-*{
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-input, textarea{
-  user-select: text !important;
-}
+*{user-select:none;-webkit-user-select:none}
+input,textarea{user-select:text!important}
 
 .login{
   min-height:100vh;
@@ -97,11 +89,11 @@ textarea{min-height:95px;resize:vertical}
 
 .top-buttons{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:1fr 1fr 1fr;
   gap:14px;
   margin-bottom:16px;
 }
-.exit-btn,.add-btn{
+.exit-btn,.add-btn,.brand-btn{
   padding:16px;
   border-radius:18px;
   font-weight:900;
@@ -109,6 +101,7 @@ textarea{min-height:95px;resize:vertical}
 }
 .exit-btn{background:#fff;color:var(--navy)}
 .add-btn{background:linear-gradient(135deg,var(--turq),var(--blue));color:#021423}
+.brand-btn{background:linear-gradient(135deg,var(--lime),#fff36b);color:#021423}
 
 .search-box{
   border-radius:24px;
@@ -138,10 +131,7 @@ textarea{min-height:95px;resize:vertical}
 }
 .stat span{color:var(--soft);font-weight:800}
 
-.phone-list{
-  display:grid;
-  gap:14px;
-}
+.phone-list{display:grid;gap:14px}
 .phone-card{
   position:relative;
   border-radius:28px;
@@ -174,19 +164,6 @@ textarea{min-height:95px;resize:vertical}
   font-size:13px;
   font-weight:900;
 }
-.device-code{
-  height:42px;
-  min-width:74px;
-  padding:0 14px;
-  border-radius:15px;
-  background:var(--lime);
-  color:#021423;
-  font-size:18px;
-  font-weight:1000;
-  display:grid;
-  place-items:center;
-  box-shadow:0 12px 30px rgba(210,217,4,.22);
-}
 .price-row{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -209,21 +186,59 @@ textarea{min-height:95px;resize:vertical}
   color:var(--lime);
   font-size:20px;
 }
-.card-actions{
+.card-side{
   display:flex;
+  align-items:flex-start;
   gap:8px;
-  margin-top:12px;
-  flex-wrap:wrap;
 }
-.card-actions button{
-  padding:9px 12px;
-  border-radius:12px;
-  font-size:12px;
+.device-code{
+  height:42px;
+  min-width:74px;
+  padding:0 14px;
+  border-radius:15px;
+  background:var(--lime);
+  color:#021423;
+  font-size:18px;
+  font-weight:1000;
+  display:grid;
+  place-items:center;
+  box-shadow:0 12px 30px rgba(210,217,4,.22);
+}
+.menu-dot{
+  width:42px;
+  height:42px;
+  border-radius:15px;
+  background:#fff;
+  color:var(--navy);
+  font-size:24px;
   font-weight:900;
+}
+.action-menu{
+  position:absolute;
+  right:14px;
+  top:62px;
+  width:130px;
+  display:none;
+  background:#fff;
+  color:var(--navy);
+  border-radius:14px;
+  padding:6px;
+  z-index:5;
+  box-shadow:0 14px 35px rgba(0,0,0,.32);
+}
+.action-menu.active{display:grid;gap:5px}
+.action-menu button{
+  width:100%;
+  padding:9px;
+  border-radius:10px;
+  font-weight:900;
+  text-align:left;
+  font-size:12px;
 }
 .edit{background:#eef8fb;color:var(--navy)}
 .sold-btn{background:#dfffe9;color:#087235}
 .delete{background:#ffe4e4;color:var(--red)}
+
 .empty{
   padding:35px;
   text-align:center;
@@ -284,10 +299,39 @@ textarea{min-height:95px;resize:vertical}
 .full{grid-column:1/-1}
 .save{margin-top:16px}
 
+.brand-list{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+.brand-card{
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:14px;
+}
+.brand-card b{
+  color:var(--lime);
+  display:block;
+  margin-bottom:6px;
+}
+.brand-card p{font-size:13px}
+.brand-actions{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+.brand-actions button{
+  flex:1;
+  padding:10px;
+  border-radius:12px;
+  font-weight:900;
+}
+
 .alert-wrap{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.55);
+  background:rgba(0,0,0,.62);
   display:none;
   align-items:center;
   justify-content:center;
@@ -297,7 +341,7 @@ textarea{min-height:95px;resize:vertical}
 .alert-wrap.active{display:flex}
 .custom-alert{
   width:100%;
-  max-width:390px;
+  max-width:430px;
   border-radius:26px;
   padding:24px;
   text-align:center;
@@ -310,14 +354,18 @@ textarea{min-height:95px;resize:vertical}
   font-weight:800;
   margin-bottom:18px;
 }
-.custom-alert button{
-  width:100%;
+.alert-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.alert-buttons button{
   padding:14px;
   border-radius:15px;
-  background:linear-gradient(135deg,var(--turq),var(--blue));
-  color:#021423;
   font-weight:900;
 }
+.cancel-alert{background:#fff;color:#021423}
+.confirm-alert{background:var(--red);color:#fff}
 
 footer{
   padding:28px 16px 40px;
@@ -334,12 +382,12 @@ footer b{color:var(--turq)}
   .welcome p{font-size:14px}
 
   .top-buttons{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:8px;
   }
-  .exit-btn,.add-btn{
-    padding:14px 10px;
-    font-size:14px;
+  .exit-btn,.add-btn,.brand-btn{
+    padding:13px 7px;
+    font-size:12px;
     border-radius:15px;
   }
 
@@ -356,12 +404,20 @@ footer b{color:var(--turq)}
   .stat span{font-size:10px}
 
   .phone-card{
-    grid-template-columns:1fr auto;
+    grid-template-columns:1fr;
     gap:10px;
     padding:13px;
     border-radius:22px;
   }
-  .phone-info h2{font-size:18px}
+  .card-side{
+    position:absolute;
+    right:12px;
+    top:12px;
+  }
+  .phone-info h2{
+    font-size:18px;
+    padding-right:118px;
+  }
   .tag{
     font-size:10.5px;
     padding:5px 7px;
@@ -381,10 +437,20 @@ footer b{color:var(--turq)}
   .price-box span{font-size:10px}
   .price-box b{font-size:14px}
   .device-code{
-    min-width:58px;
+    min-width:55px;
     height:34px;
     font-size:14px;
     border-radius:12px;
+  }
+  .menu-dot{
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    font-size:20px;
+  }
+  .action-menu{
+    right:12px;
+    top:52px;
   }
 
   .modal{
@@ -408,23 +474,14 @@ footer b{color:var(--turq)}
 }
 
 @media(max-width:470px){
-  .stats{
-    grid-template-columns:repeat(4,1fr);
-  }
+  .stats{grid-template-columns:repeat(4,1fr)}
   .stat b{font-size:15px}
   .stat span{font-size:8.5px}
-
-  .phone-info h2{
-    font-size:16px;
-    margin-bottom:5px;
-  }
-  .tag{
-    font-size:9.5px;
-    padding:4px 6px;
-  }
+  .phone-info h2{font-size:16px}
+  .tag{font-size:9.5px;padding:4px 6px}
   .price-box b{font-size:13px}
   .form-grid{grid-template-columns:1fr}
-  footer{font-size:13px;padding-bottom:28px}
+  .alert-buttons{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -452,6 +509,7 @@ footer b{color:var(--turq)}
   <div class="top-buttons">
     <button class="exit-btn" onclick="exitPanel()">Çıkış Yap</button>
     <button class="add-btn" onclick="openModal()">Telefon Ekle</button>
+    <button class="brand-btn" onclick="openBrandModal()">Marka Ekle</button>
   </div>
 
   <div class="search-box">
@@ -459,22 +517,10 @@ footer b{color:var(--turq)}
   </div>
 
   <div class="stats">
-    <div class="stat">
-      <b id="totalDevice">0</b>
-      <span>Toplam Cihaz</span>
-    </div>
-    <div class="stat">
-      <b id="soldDevice">0</b>
-      <span>Satılan Cihaz</span>
-    </div>
-    <div class="stat">
-      <b id="turnover">0 TL</b>
-      <span>Ciro</span>
-    </div>
-    <div class="stat">
-      <b id="profit">0 TL</b>
-      <span>Kar</span>
-    </div>
+    <div class="stat"><b id="totalDevice">0</b><span>Toplam Cihaz</span></div>
+    <div class="stat"><b id="soldDevice">0</b><span>Satılan Cihaz</span></div>
+    <div class="stat"><b id="turnover">0 TL</b><span>Ciro</span></div>
+    <div class="stat"><b id="profit">0 TL</b><span>Kar</span></div>
   </div>
 
   <div class="phone-list" id="phoneList">
@@ -496,43 +542,23 @@ footer b{color:var(--turq)}
     <input type="hidden" id="editId">
 
     <div class="form-grid">
-      <label>
-        Etiket No
+      <label>Etiket No
         <input id="deviceCode" maxlength="4" inputmode="numeric" placeholder="Örn: 1453">
       </label>
 
-      <label>
-        Marka
+      <label>Marka
         <select id="brand" onchange="fillModels(); batteryControl();">
           <option value="">Marka seç</option>
-          <option>Apple</option>
-          <option>Samsung</option>
-          <option>Xiaomi</option>
-          <option>Huawei</option>
-          <option>Oppo</option>
-          <option>Realme</option>
-          <option>Vivo</option>
-          <option>Honor</option>
-          <option>General Mobile</option>
-          <option>Tecno</option>
-          <option>Infinix</option>
-          <option>Reeder</option>
-          <option>Casper</option>
-          <option>Vestel</option>
-          <option>Nokia</option>
-          <option>Motorola</option>
         </select>
       </label>
 
-      <label>
-        Model
+      <label>Model
         <select id="model">
           <option value="">Önce marka seç</option>
         </select>
       </label>
 
-      <label>
-        Hafıza
+      <label>Hafıza
         <select id="storageGb">
           <option value="">GB seç</option>
           <option>32 GB</option>
@@ -544,8 +570,7 @@ footer b{color:var(--turq)}
         </select>
       </label>
 
-      <label>
-        Kasa Durumu
+      <label>Kasa Durumu
         <select id="caseStatus">
           <option value="">Kasa durumu seç</option>
           <option>Çok iyi</option>
@@ -555,13 +580,11 @@ footer b{color:var(--turq)}
         </select>
       </label>
 
-      <label>
-        Pil Ömrü
+      <label>Pil Ömrü
         <input id="battery" placeholder="Sadece Apple için aktif" disabled>
       </label>
 
-      <label>
-        Garanti
+      <label>Garanti
         <select id="warranty">
           <option value="">Garanti seç</option>
           <option>Var</option>
@@ -569,18 +592,15 @@ footer b{color:var(--turq)}
         </select>
       </label>
 
-      <label>
-        Geliş Fiyatı
+      <label>Geliş Fiyatı
         <input id="buyPrice" type="number" placeholder="₺">
       </label>
 
-      <label>
-        Satış Fiyatı
+      <label>Satış Fiyatı
         <input id="sellPrice" type="number" placeholder="₺">
       </label>
 
-      <label class="full">
-        Not
+      <label class="full">Not
         <textarea id="note" placeholder="Telefon hakkında not"></textarea>
       </label>
     </div>
@@ -589,11 +609,45 @@ footer b{color:var(--turq)}
   </div>
 </div>
 
+<div class="modal" id="brandModal">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div>
+        <h1>Marka & Model Yönetimi</h1>
+        <p>Yeni marka ekle, modelleri düzenle veya gereksiz markaları sil.</p>
+      </div>
+      <button class="close" onclick="closeBrandModal()">×</button>
+    </div>
+
+    <input type="hidden" id="brandEditId">
+
+    <div class="form-grid">
+      <label>Marka Adı
+        <input id="brandNameInput" placeholder="Örn: Apple">
+      </label>
+
+      <label>Sıra Numarası
+        <input id="brandOrderInput" type="number" placeholder="Örn: 1">
+      </label>
+
+      <label class="full">Modeller
+        <textarea id="brandModelsInput" placeholder="Her modeli virgül ile ayır. Örn: iPhone 16 Pro Max, iPhone 15, iPhone 14"></textarea>
+      </label>
+    </div>
+
+    <button class="main-btn save" onclick="saveBrand()">Markayı Kaydet</button>
+
+    <div class="brand-list" id="brandList"></div>
+  </div>
+</div>
+
 <div class="alert-wrap" id="customAlert">
   <div class="custom-alert">
-    <h2>Eksik Bilgi Var</h2>
-    <p id="alertText">Lütfen not hariç tüm kutuları doldurun.</p>
-    <button onclick="closeAlert()">Tamam</button>
+    <h2 id="alertTitle">Eksik Bilgi Var</h2>
+    <p id="alertText">Lütfen bilgileri kontrol edin.</p>
+    <div class="alert-buttons" id="alertButtons">
+      <button class="cancel-alert" onclick="closeAlert()">Tamam</button>
+    </div>
   </div>
 </div>
 
@@ -642,24 +696,127 @@ const db = getFirestore(app);
 
 const PASSWORD = "5435641891";
 let phones = [];
+let brands = [];
 
 const modelData = {
-  "Apple":["iPhone 16 Pro Max","iPhone 16 Pro","iPhone 16","iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15","iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14","iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13","iPhone 12 Pro Max","iPhone 12 Pro","iPhone 12","iPhone 11 Pro Max","iPhone 11 Pro","iPhone 11","iPhone X","iPhone 8 Plus"],
-  "Samsung":["Galaxy S24 Ultra","Galaxy S24","Galaxy S23 Ultra","Galaxy S23","Galaxy S22 Ultra","Galaxy A55","Galaxy A54","Galaxy A35","Galaxy A34","Galaxy A25","Galaxy A24","Galaxy A15","Galaxy Note 20 Ultra","Galaxy Z Fold","Galaxy Z Flip"],
-  "Xiaomi":["Redmi Note 13 Pro","Redmi Note 13","Redmi Note 12 Pro","Redmi Note 12","Redmi Note 11","Mi 11 Lite","Mi 10T","Poco X6 Pro","Poco X5 Pro","Poco F5"],
-  "Huawei":["P60 Pro","P50 Pro","P40 Lite","P30 Pro","Mate 40 Pro","Mate 20 Lite","Nova 11","Nova 10","Y9 Prime"],
-  "Oppo":["Reno 11","Reno 10","Reno 8","Reno 6","A96","A74","A54","A16"],
-  "Realme":["Realme 12 Pro","Realme 11 Pro","Realme 10","Realme 9 Pro","Realme C55","Realme C35"],
-  "Vivo":["Vivo V30","Vivo V29","Vivo Y36","Vivo Y35","Vivo Y22"],
-  "Honor":["Honor 90","Honor 70","Honor X9A","Honor X8","Honor Magic"],
-  "General Mobile":["GM 24 Pro","GM 23","GM 22","GM 21"],
-  "Tecno":["Camon 20","Spark 10","Spark 20","Pova 5"],
-  "Infinix":["Note 30","Hot 30","Hot 40","Zero 30"],
-  "Reeder":["S19 Max","S23 Pro Max","P13 Blue Max"],
-  "Casper":["Via X30","Via F30","Via E30"],
-  "Vestel":["Venus Z30","Venus V7","Venus E5"],
-  "Nokia":["Nokia G21","Nokia G20","Nokia C32"],
-  "Motorola":["Moto G84","Moto G54","Moto Edge 40"]
+  "Apple":[
+    "iPhone 17 Pro Max","iPhone 17 Pro","iPhone 17 Plus","iPhone 17",
+    "iPhone 16 Pro Max","iPhone 16 Pro","iPhone 16 Plus","iPhone 16",
+    "iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15 Plus","iPhone 15",
+    "iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14 Plus","iPhone 14",
+    "iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13","iPhone 13 Mini",
+    "iPhone 12 Pro Max","iPhone 12 Pro","iPhone 12","iPhone 12 Mini",
+    "iPhone 11 Pro Max","iPhone 11 Pro","iPhone 11",
+    "iPhone XS Max","iPhone XS","iPhone XR","iPhone X",
+    "iPhone 8 Plus","iPhone 8","iPhone 7 Plus","iPhone 7"
+  ],
+
+  "Samsung":[
+    "Galaxy S25 Ultra","Galaxy S25 Plus","Galaxy S25",
+    "Galaxy S24 Ultra","Galaxy S24 Plus","Galaxy S24 FE","Galaxy S24",
+    "Galaxy S23 Ultra","Galaxy S23 Plus","Galaxy S23 FE","Galaxy S23",
+    "Galaxy S22 Ultra","Galaxy S22 Plus","Galaxy S22",
+    "Galaxy S21 Ultra","Galaxy S21 FE","Galaxy S21",
+    "Galaxy A56","Galaxy A55","Galaxy A54","Galaxy A53",
+    "Galaxy A36","Galaxy A35","Galaxy A34",
+    "Galaxy A26","Galaxy A25","Galaxy A24",
+    "Galaxy A16","Galaxy A15","Galaxy A14",
+    "Galaxy M55","Galaxy M35","Galaxy M15",
+    "Galaxy Note 20 Ultra","Galaxy Note 20","Galaxy Note 10 Plus",
+    "Galaxy Z Fold 6","Galaxy Z Fold 5","Galaxy Z Fold 4",
+    "Galaxy Z Flip 6","Galaxy Z Flip 5","Galaxy Z Flip 4"
+  ],
+
+  "Xiaomi":[
+    "Xiaomi 15 Ultra","Xiaomi 15","Xiaomi 14 Ultra","Xiaomi 14","Xiaomi 13T Pro","Xiaomi 13T",
+    "Redmi Note 14 Pro Plus","Redmi Note 14 Pro","Redmi Note 14",
+    "Redmi Note 13 Pro Plus","Redmi Note 13 Pro","Redmi Note 13",
+    "Redmi Note 12 Pro","Redmi Note 12","Redmi Note 11 Pro","Redmi Note 11",
+    "Redmi 14C","Redmi 13C","Redmi 12",
+    "Poco F6 Pro","Poco F6","Poco F5 Pro","Poco F5",
+    "Poco X7 Pro","Poco X7","Poco X6 Pro","Poco X6","Poco X5 Pro"
+  ],
+
+  "Huawei":[
+    "Pura 70 Ultra","Pura 70 Pro","Pura 70",
+    "P60 Pro","P60","P50 Pro","P50",
+    "P40 Pro","P40 Lite","P30 Pro","P30 Lite",
+    "Mate 60 Pro","Mate 50 Pro","Mate 40 Pro","Mate 30 Pro","Mate 20 Lite",
+    "Nova 13 Pro","Nova 13","Nova 12 SE","Nova 11","Nova 10","Nova 9",
+    "Y9 Prime","Y7","Y6"
+  ],
+
+  "Oppo":[
+    "Reno 13 Pro","Reno 13","Reno 12 Pro","Reno 12","Reno 11 Pro","Reno 11",
+    "Reno 10","Reno 8","Reno 6",
+    "A98","A96","A78","A74","A58","A54","A38","A18","A16"
+  ],
+
+  "Realme":[
+    "Realme GT 7 Pro","Realme GT 6","Realme GT Neo 6",
+    "Realme 14 Pro Plus","Realme 14 Pro","Realme 14",
+    "Realme 13 Pro Plus","Realme 13 Pro","Realme 13",
+    "Realme 12 Pro Plus","Realme 12 Pro","Realme 12",
+    "Realme 11 Pro","Realme 11","Realme 10","Realme 9 Pro",
+    "Realme C67","Realme C65","Realme C55","Realme C35"
+  ],
+
+  "Vivo":[
+    "Vivo V50","Vivo V40","Vivo V30","Vivo V29",
+    "Vivo Y300","Vivo Y200","Vivo Y100",
+    "Vivo Y36","Vivo Y35","Vivo Y28","Vivo Y22",
+    "Vivo X100 Pro","Vivo X90 Pro"
+  ],
+
+  "Honor":[
+    "Honor Magic 7 Pro","Honor Magic 6 Pro","Honor Magic 5 Pro",
+    "Honor 200 Pro","Honor 200","Honor 100","Honor 90","Honor 70",
+    "Honor X9B","Honor X9A","Honor X8B","Honor X8","Honor X7B"
+  ],
+
+  "General Mobile":[
+    "GM 25 Pro","GM 24 Pro","GM 24","GM 23","GM 22","GM 21",
+    "GM 20 Pro","GM 9 Pro","GM 8"
+  ],
+
+  "Tecno":[
+    "Camon 30 Pro","Camon 30","Camon 20 Pro","Camon 20",
+    "Spark 30 Pro","Spark 30","Spark 20 Pro","Spark 20","Spark 10",
+    "Pova 6 Pro","Pova 6","Pova 5 Pro","Pova 5"
+  ],
+
+  "Infinix":[
+    "Note 40 Pro Plus","Note 40 Pro","Note 40",
+    "Note 30 Pro","Note 30",
+    "Hot 50 Pro","Hot 50","Hot 40 Pro","Hot 40","Hot 30",
+    "Zero 40","Zero 30","Smart 8"
+  ],
+
+  "Reeder":[
+    "S23 Pro Max","S23 Pro","S23",
+    "S19 Max Pro","S19 Max","S19",
+    "P13 Blue Max Pro","P13 Blue Max","P13"
+  ],
+
+  "Casper":[
+    "Via X40","Via X30","Via F40","Via F30","Via E30","Via M30"
+  ],
+
+  "Vestel":[
+    "Venus Z40","Venus Z30","Venus V7","Venus V6","Venus E5"
+  ],
+
+  "Nokia":[
+    "Nokia G42","Nokia G22","Nokia G21","Nokia G20",
+    "Nokia C32","Nokia C31","Nokia C21",
+    "Nokia 8.3","Nokia 7.2","Nokia 6.2"
+  ],
+
+  "Motorola":[
+    "Moto Edge 50 Ultra","Moto Edge 50 Pro","Moto Edge 50",
+    "Moto Edge 40 Pro","Moto Edge 40",
+    "Moto G85","Moto G84","Moto G73","Moto G54","Moto G32"
+  ]
 };
 
 window.login = function(){
@@ -673,10 +830,11 @@ window.login = function(){
   }
 }
 
-function showPanel(){
+async function showPanel(){
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("panelScreen").style.display = "block";
-  loadPhones();
+  await loadBrands();
+  await loadPhones();
 }
 
 window.exitPanel = function(){
@@ -686,6 +844,7 @@ window.exitPanel = function(){
 
 window.openModal = function(){
   clearForm();
+  fillBrandSelect();
   document.getElementById("modalTitle").innerText = "Telefon Ekle";
   document.getElementById("phoneModal").classList.add("active");
 }
@@ -694,23 +853,74 @@ window.closeModal = function(){
   document.getElementById("phoneModal").classList.remove("active");
 }
 
+window.openBrandModal = function(){
+  clearBrandForm();
+  renderBrands();
+  document.getElementById("brandModal").classList.add("active");
+}
+
+window.closeBrandModal = function(){
+  document.getElementById("brandModal").classList.remove("active");
+}
+
 window.closeAlert = function(){
   document.getElementById("customAlert").classList.remove("active");
 }
 
-function showAlert(text){
+function showAlert(title,text){
+  document.getElementById("alertTitle").innerText = title;
   document.getElementById("alertText").innerText = text;
+  document.getElementById("alertButtons").innerHTML = `
+    <button class="cancel-alert" onclick="closeAlert()">Tamam</button>
+  `;
   document.getElementById("customAlert").classList.add("active");
 }
 
+function showConfirm(title,text,onYes){
+  document.getElementById("alertTitle").innerText = title;
+  document.getElementById("alertText").innerText = text;
+  document.getElementById("alertButtons").innerHTML = `
+    <button class="cancel-alert" onclick="closeAlert()">Vazgeç</button>
+    <button class="confirm-alert" id="confirmYes">Evet, Sil</button>
+  `;
+  document.getElementById("customAlert").classList.add("active");
+  document.getElementById("confirmYes").onclick = onYes;
+}
+
+async function loadBrands(){
+  const snap = await getDocs(query(collection(db, "brands"), orderBy("order", "asc")));
+  brands = [];
+  snap.forEach(item => brands.push({id:item.id, ...item.data()}));
+
+  if(brands.length === 0){
+    brands = defaultBrands.map((b,i) => ({id:"default-"+i, ...b}));
+  }
+
+  fillBrandSelect();
+}
+
+function fillBrandSelect(){
+  const brandSelect = document.getElementById("brand");
+  if(!brandSelect) return;
+
+  brandSelect.innerHTML = `<option value="">Marka seç</option>`;
+  brands
+    .sort((a,b) => Number(a.order || 999) - Number(b.order || 999))
+    .forEach(b => {
+      brandSelect.innerHTML += `<option>${safe(b.name)}</option>`;
+    });
+}
+
 window.fillModels = function(){
-  const brand = document.getElementById("brand").value;
+  const brandName = document.getElementById("brand").value;
   const model = document.getElementById("model");
   model.innerHTML = `<option value="">Model seç</option>`;
 
-  if(modelData[brand]){
-    modelData[brand].forEach(m => {
-      model.innerHTML += `<option>${m}</option>`;
+  const selectedBrand = brands.find(b => b.name === brandName);
+
+  if(selectedBrand && Array.isArray(selectedBrand.models)){
+    selectedBrand.models.forEach(m => {
+      model.innerHTML += `<option>${safe(m)}</option>`;
     });
   }
 }
@@ -727,6 +937,92 @@ window.batteryControl = function(){
     battery.disabled = true;
     battery.placeholder = "Apple dışında kapalı";
   }
+}
+
+window.saveBrand = async function(){
+  const id = document.getElementById("brandEditId").value;
+  const name = document.getElementById("brandNameInput").value.trim();
+  const order = Number(document.getElementById("brandOrderInput").value || 999);
+  const modelsRaw = document.getElementById("brandModelsInput").value.trim();
+
+  if(!name || !modelsRaw){
+    showAlert("Eksik Bilgi Var","Marka adı ve modeller alanı boş kalamaz.");
+    return;
+  }
+
+  const models = modelsRaw.split(",").map(m => m.trim()).filter(Boolean);
+
+  const brandData = {name, order, models};
+
+  if(id && !id.startsWith("default-")){
+    await updateDoc(doc(db, "brands", id), brandData);
+  }else{
+    await addDoc(collection(db, "brands"), brandData);
+  }
+
+  clearBrandForm();
+  await loadBrands();
+  renderBrands();
+}
+
+function renderBrands(){
+  const list = document.getElementById("brandList");
+
+  if(brands.length === 0){
+    list.innerHTML = `<div class="empty">Henüz marka eklenmedi.</div>`;
+    return;
+  }
+
+  list.innerHTML = brands
+    .sort((a,b) => Number(a.order || 999) - Number(b.order || 999))
+    .map(b => `
+      <div class="brand-card">
+        <b>${safe(b.order || "-")}. ${safe(b.name)}</b>
+        <p>${safe((b.models || []).join(", "))}</p>
+        <div class="brand-actions">
+          <button class="edit" onclick="editBrand('${b.id}')">Düzenle</button>
+          <button class="delete" onclick="deleteBrand('${b.id}')">Sil</button>
+        </div>
+      </div>
+    `).join("");
+}
+
+window.editBrand = function(id){
+  const b = brands.find(x => x.id === id);
+  if(!b) return;
+
+  document.getElementById("brandEditId").value = b.id;
+  document.getElementById("brandNameInput").value = b.name || "";
+  document.getElementById("brandOrderInput").value = b.order || "";
+  document.getElementById("brandModelsInput").value = (b.models || []).join(", ");
+}
+
+window.deleteBrand = function(id){
+  const b = brands.find(x => x.id === id);
+  if(!b) return;
+
+  if(id.startsWith("default-")){
+    showAlert("Silinemez","Varsayılan markayı silmek için önce aynı markayı Marka Ekle bölümünden kaydetmen gerekir.");
+    return;
+  }
+
+  showConfirm(
+    "Marka Silinsin mi?",
+    `${b.name} markasını silersen bu marka yeni telefon ekleme seçeneklerinden kaldırılır. Mevcut kayıtlı telefonlar silinmez.`,
+    async function(){
+      await deleteDoc(doc(db, "brands", id));
+      closeAlert();
+      await loadBrands();
+      renderBrands();
+    }
+  );
+}
+
+function clearBrandForm(){
+  document.getElementById("brandEditId").value = "";
+  document.getElementById("brandNameInput").value = "";
+  document.getElementById("brandOrderInput").value = "";
+  document.getElementById("brandModelsInput").value = "";
 }
 
 window.savePhone = async function(){
@@ -760,18 +1056,18 @@ window.savePhone = async function(){
     !phone.sellPrice ||
     (phone.brand === "Apple" && !phone.battery)
   ){
-    showAlert("Eksik kutular var. Lütfen not alanı hariç tüm bilgileri doldurun.");
+    showAlert("Eksik Bilgi Var","Eksik kutular var. Lütfen not alanı hariç tüm bilgileri doldurun.");
     return;
   }
 
   if(!/^[0-9]{4}$/.test(phone.deviceCode)){
-    showAlert("Etiket numarası 4 haneli olmalı. Örnek: 1453");
+    showAlert("Etiket Hatalı","Etiket numarası 4 haneli olmalı. Örnek: 1453");
     return;
   }
 
   const codeUsed = phones.some(p => p.deviceCode === phone.deviceCode && p.id !== id);
   if(codeUsed){
-    showAlert("Bu etiket numarası başka bir cihazda kullanılıyor.");
+    showAlert("Etiket Kullanılıyor","Bu etiket numarası başka bir cihazda kullanılıyor.");
     return;
   }
 
@@ -858,17 +1154,27 @@ window.renderPhones = function(){
             <b>${formatTL(phone.sellPrice)}</b>
           </div>
         </div>
-
-        <div class="card-actions">
-          <button class="edit" onclick="editPhone('${phone.id}')">Düzenle</button>
-          <button class="sold-btn" onclick="toggleSold('${phone.id}')">${phone.sold ? "Stokta Yap" : "Satıldı"}</button>
-          <button class="delete" onclick="deletePhone('${phone.id}')">Sil</button>
-        </div>
       </div>
 
-      <div class="device-code">${safe(phone.deviceCode || "0000")}</div>
+      <div class="card-side">
+        <div class="device-code">${safe(phone.deviceCode || "0000")}</div>
+        <button class="menu-dot" onclick="toggleAction('${phone.id}')">⋮</button>
+      </div>
+
+      <div class="action-menu" id="menu-${phone.id}">
+        <button class="edit" onclick="editPhone('${phone.id}')">Düzenle</button>
+        <button class="sold-btn" onclick="toggleSold('${phone.id}')">${phone.sold ? "Stokta Yap" : "Satıldı"}</button>
+        <button class="delete" onclick="deletePhone('${phone.id}')">Sil</button>
+      </div>
     </div>
   `).join("");
+}
+
+window.toggleAction = function(id){
+  document.querySelectorAll(".action-menu").forEach(m => {
+    if(m.id !== "menu-" + id) m.classList.remove("active");
+  });
+  document.getElementById("menu-" + id).classList.toggle("active");
 }
 
 window.editPhone = function(id){
@@ -876,6 +1182,8 @@ window.editPhone = function(id){
   if(!phone) return;
 
   document.getElementById("modalTitle").innerText = "Telefon Düzenle";
+  fillBrandSelect();
+
   document.getElementById("editId").value = phone.id;
   document.getElementById("deviceCode").value = phone.deviceCode || "";
   document.getElementById("brand").value = phone.brand;
@@ -904,11 +1212,19 @@ window.toggleSold = async function(id){
   loadPhones();
 }
 
-window.deletePhone = async function(id){
-  if(confirm("Bu telefon silinsin mi?")){
-    await deleteDoc(doc(db, "phones", id));
-    loadPhones();
-  }
+window.deletePhone = function(id){
+  const phone = phones.find(p => p.id === id);
+  if(!phone) return;
+
+  showConfirm(
+    "Cihaz Silinsin mi?",
+    `${phone.brand} ${phone.model} cihazını kalıcı olarak silmek üzeresin. Etiket No: ${phone.deviceCode}. Bu işlem geri alınamaz.`,
+    async function(){
+      await deleteDoc(doc(db, "phones", id));
+      closeAlert();
+      loadPhones();
+    }
+  );
 }
 
 window.clearForm = function(){
