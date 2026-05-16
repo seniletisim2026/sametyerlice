@@ -80,12 +80,27 @@ textarea{min-height:95px;resize:vertical}
   padding:24px;
   margin-bottom:16px;
 }
+.welcome-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+}
 .welcome h1{
   font-size:clamp(28px,5vw,46px);
   line-height:1.05;
 }
 .welcome h1 span{color:white}
 .welcome p{font-size:16px;font-weight:700}
+.change-pass-btn{
+  padding:14px 17px;
+  border-radius:17px;
+  background:linear-gradient(135deg,var(--lime),#fff36b);
+  color:#021423;
+  font-weight:1000;
+  white-space:nowrap;
+  box-shadow:0 14px 30px rgba(210,217,4,.20);
+}
 
 .top-buttons{
   display:grid;
@@ -267,6 +282,11 @@ textarea{min-height:95px;resize:vertical}
   overflow-y:auto;
   border-radius:30px;
   padding:24px;
+  animation:popIn .28s ease both;
+}
+@keyframes popIn{
+  from{opacity:0;transform:translateY(18px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
 }
 .modal-top{
   display:flex;
@@ -378,8 +398,10 @@ footer b{color:var(--turq)}
 @media(max-width:760px){
   .panel{padding:12px}
   .welcome{padding:20px;border-radius:24px}
+  .welcome-head{align-items:flex-start}
   .welcome h1{font-size:30px}
   .welcome p{font-size:14px}
+  .change-pass-btn{font-size:12px;padding:12px 10px;border-radius:14px}
 
   .top-buttons{
     grid-template-columns:1fr 1fr 1fr;
@@ -493,7 +515,7 @@ footer b{color:var(--turq)}
     <h1>Giriş</h1>
     <p>Şen İletişim Yönetim Paneli</p>
     &nbsp;
-    <input type="password" id="loginPassword" placeholder="Şifre">
+    <input type="password" id="loginPassword" maxlength="6" inputmode="numeric" placeholder="Şifre">
     <button class="main-btn" style="margin-top:14px" onclick="login()">Giriş Yap</button>
     <span class="error" id="loginError"></span>
   </div>
@@ -502,8 +524,13 @@ footer b{color:var(--turq)}
 <div class="panel" id="panelScreen">
 
   <div class="welcome">
-    <h1>Hoşgeldiniz <span>Samet Y.</span></h1>
-    <p>Telefon yönetim paneli</p>
+    <div class="welcome-head">
+      <div>
+        <h1>Hoşgeldiniz <span>Samet Y.</span></h1>
+        <p>Telefon yönetim paneli</p>
+      </div>
+      <button class="change-pass-btn" onclick="openPasswordModal()">Şifre Değiştir</button>
+    </div>
   </div>
 
   <div class="top-buttons">
@@ -637,6 +664,34 @@ footer b{color:var(--turq)}
   </div>
 </div>
 
+<div class="modal" id="passwordModal">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-top">
+      <div>
+        <h1>Şifre Değiştir</h1>
+        <p>Eski şifreyi yaz, yeni şifreyi belirle. En fazla 6 hane ve sadece rakam.</p>
+      </div>
+      <button class="close" onclick="closePasswordModal()">×</button>
+    </div>
+
+    <div class="form-grid">
+      <label class="full">Eski Şifre
+        <input id="oldPassword" type="password" maxlength="6" inputmode="numeric" placeholder="Eski şifre">
+      </label>
+
+      <label class="full">Yeni Şifre
+        <input id="newPassword" type="password" maxlength="6" inputmode="numeric" placeholder="Yeni şifre">
+      </label>
+
+      <label class="full">Yeni Şifre Tekrar
+        <input id="newPasswordAgain" type="password" maxlength="6" inputmode="numeric" placeholder="Yeni şifre tekrar">
+      </label>
+    </div>
+
+    <button class="main-btn save" onclick="savePassword()">Kaydet</button>
+  </div>
+</div>
+
 <div class="alert-wrap" id="customAlert">
   <div class="custom-alert">
     <h2 id="alertTitle">Eksik Bilgi Var</h2>
@@ -671,6 +726,8 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
+  setDoc,
   deleteDoc,
   doc,
   updateDoc,
@@ -690,7 +747,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const PASSWORD = "2626262626";
+const DEFAULT_PASSWORD = "123456";
+const passwordRef = doc(db, "settings", "panelPassword");
 
 let phones = [];
 let customModels = [];
@@ -715,14 +773,40 @@ const modelData = {
   "Motorola":["Moto Edge 50 Ultra","Moto Edge 50 Pro","Moto Edge 50","Moto Edge 40 Pro","Moto Edge 40","Moto G85","Moto G84","Moto G73","Moto G54","Moto G32"]
 };
 
-window.login = function(){
-  const pass = document.getElementById("loginPassword").value;
+async function getPanelPassword(){
+  try{
+    const snap = await getDoc(passwordRef);
 
-  if(pass === PASSWORD){
+    if(snap.exists()){
+      return String(snap.data().password || DEFAULT_PASSWORD);
+    }
+
+    await setDoc(passwordRef, {
+      password: DEFAULT_PASSWORD,
+      updatedAt: Date.now()
+    });
+
+    return DEFAULT_PASSWORD;
+  }catch(err){
+    console.error("Şifre okunamadı:", err);
+    return DEFAULT_PASSWORD;
+  }
+}
+
+window.login = async function(){
+  const pass = document.getElementById("loginPassword").value.trim();
+  const loginError = document.getElementById("loginError");
+
+  loginError.innerText = "Kontrol ediliyor...";
+
+  const currentPassword = await getPanelPassword();
+
+  if(pass === currentPassword){
     sessionStorage.setItem("sametPanel","true");
+    loginError.innerText = "";
     showPanel();
   }else{
-    document.getElementById("loginError").innerText = "Şifre hatalı.";
+    loginError.innerText = "Şifre hatalı.";
   }
 }
 
@@ -758,6 +842,48 @@ window.openBrandModal = function(){
 
 window.closeBrandModal = function(){
   document.getElementById("brandModal").classList.remove("active");
+}
+
+window.openPasswordModal = function(){
+  document.getElementById("oldPassword").value = "";
+  document.getElementById("newPassword").value = "";
+  document.getElementById("newPasswordAgain").value = "";
+  document.getElementById("passwordModal").classList.add("active");
+}
+
+window.closePasswordModal = function(){
+  document.getElementById("passwordModal").classList.remove("active");
+}
+
+window.savePassword = async function(){
+  const oldPass = document.getElementById("oldPassword").value.trim();
+  const newPass = document.getElementById("newPassword").value.trim();
+  const againPass = document.getElementById("newPasswordAgain").value.trim();
+
+  const currentPassword = await getPanelPassword();
+
+  if(oldPass !== currentPassword){
+    showAlert("Eski Şifre Hatalı","Girdiğin eski şifre doğru değil.");
+    return;
+  }
+
+  if(!/^[0-9]{1,6}$/.test(newPass)){
+    showAlert("Şifre Hatalı","Yeni şifre sadece rakamlardan oluşmalı ve en fazla 6 haneli olmalı.");
+    return;
+  }
+
+  if(newPass !== againPass){
+    showAlert("Şifreler Uyuşmuyor","Yeni şifre ve tekrar şifresi aynı değil.");
+    return;
+  }
+
+  await setDoc(passwordRef, {
+    password: newPass,
+    updatedAt: Date.now()
+  });
+
+  closePasswordModal();
+  showAlert("Şifre Değiştirildi","Yeni şifre Firebase'e kaydedildi. Bundan sonra bu şifre ile giriş yapılacak.");
 }
 
 window.closeAlert = function(){
